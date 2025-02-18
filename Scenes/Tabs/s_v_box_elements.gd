@@ -5,6 +5,7 @@ var elements_panel:Node
 func _ready():
 	elements_panel = %VBoxElements
 	add_spine()
+	setup_styles()
 
 
 func add_spine():
@@ -32,6 +33,9 @@ func add_spine():
 func add_branch(parent_container):
 	var branch_container = VBoxContainer.new()
 	var branch_header = HBoxContainer.new()
+	var branch_margin = MarginContainer.new()
+	
+	branch_margin.add_theme_constant_override("margin_left", 20)
 	
 	var branch_label = Label.new()
 	branch_label.text = "Кость"
@@ -53,17 +57,23 @@ func add_branch(parent_container):
 	branch_header.add_child(add_subbranch_button)
 	branch_header.add_child(delete_button)
 	branch_container.add_child(branch_header)
-	parent_container.add_child(branch_container)
+	branch_margin.add_child(branch_container)
+	parent_container.add_child(branch_margin)
 
 
 func add_subbranch(parent_container):
 	var subbranch_container = HBoxContainer.new()
+	var subbranch_margin = MarginContainer.new()
+	
+	subbranch_margin.add_theme_constant_override("margin_left", 20)
 	
 	var subbranch_label = Label.new()
 	subbranch_label.text = "Подкость"
 	
 	var rename_button = Button.new()
 	rename_button.text = "✎"
+	#rename_button.icon = edit_icon
+	#rename_button.icon.
 	rename_button.connect("pressed", self.rename_element.bind(subbranch_label))
 	
 	var delete_button = Button.new()
@@ -73,7 +83,8 @@ func add_subbranch(parent_container):
 	subbranch_container.add_child(subbranch_label)
 	subbranch_container.add_child(rename_button)
 	subbranch_container.add_child(delete_button)
-	parent_container.add_child(subbranch_container)
+	subbranch_margin.add_child(subbranch_container)
+	parent_container.add_child(subbranch_margin)
 
 
 func delete_element(element_container):
@@ -96,3 +107,22 @@ func on_rename_complete(new_text, label, line_edit, label_parent):
 	label_parent.add_child(label)
 	label_parent.move_child(label, 0)
 	label.show()
+
+
+func setup_styles():
+	# Style for buttons
+	var button_style = StyleBoxFlat.new()
+	button_style.bg_color = Color("8EB8E5")
+	button_style.corner_radius_top_left = 15
+	button_style.corner_radius_top_right = 15
+	button_style.corner_radius_bottom_left = 15
+	button_style.corner_radius_bottom_right = 15
+	
+	# Apply styles
+	var theme = Theme.new()
+	theme.set_stylebox("normal", "Button", button_style)
+	theme.set_color("font_color", "Label", Color(211103))
+	theme.set_color("font_color", "Button", Color(211103))
+	
+	# Assign the theme to the root node
+	self.theme = theme
