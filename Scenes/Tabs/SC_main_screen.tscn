@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_u2v60")
 
-[node name="CanvasLayer" parent="." instance=ExtResource("2_fb2xg")]
+[node name="Background" parent="." instance=ExtResource("2_fb2xg")]
 
 [node name="Buttons" type="Control" parent="."]
 layout_mode = 1
@@ -203,3 +203,5 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_b4onk")
 theme_override_styles/normal_mirrored = ExtResource("5_eusem")
 theme_override_styles/normal = ExtResource("5_eusem")
 text = "Контрольная Карта"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Ishikawa" to="." method="_on_b_ishikawa_pressed"]

@@ -1,10 +1,13 @@
+LineEdit
+Control
+ScrollContainer
+ColorRect
+VBoxContainer
+SplitContainer
 CanvasLayer
 Button
-VBoxContainer
 MarginContainer
 Label
 PanelContainer
 TextureRect
-Control
-ColorRect
 CanvasModulate

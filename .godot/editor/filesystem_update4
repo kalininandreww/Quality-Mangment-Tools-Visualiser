@@ -1,7 +1,10 @@
-res://Scenes/Tabs/main_screen.tscn
+res://Scenes/Tabs/SC_Ishickava.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/S_main_screen.gd
-res://Scenes/Background.tscn
-res://Scenes/Tabs/SC_Ishickava.tscn
+res://Scenes/Tabs/SC_Ishikava.tscn
 res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/Tabs/s_ishikava.gd
+res://Used assets.txt
+res://Scripts/S_main_screen.gd
+res://Scenes/SC_Background.tscn
+res://Scenes/Tabs/s_v_box_elements.gd

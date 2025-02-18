@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dexludemq64ko"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="Background" type="CanvasLayer"]
 layer = -1
 
 [node name="ColorRect" type="ColorRect" parent="."]
