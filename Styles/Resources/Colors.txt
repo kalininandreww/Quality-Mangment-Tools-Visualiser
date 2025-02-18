@@ -1,0 +1,5 @@
+#FEFAE0 - BackGround
+#8EB8E5 - Blue
+#211103 - black
+#537A5A - green
+#B6465F - red

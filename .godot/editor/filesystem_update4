@@ -1,0 +1,7 @@
+res://Scenes/Tabs/main_screen.tscn
+res://Styles/TO_ButtonHoverMM.tres
+res://Styles/TO_ButtonNormalMM.tres
+res://Scenes/Tabs/S_main_screen.gd
+res://Scenes/Background.tscn
+res://Scenes/Tabs/SC_Ishickava.tscn
+res://Scenes/Tabs/SC_main_screen.tscn

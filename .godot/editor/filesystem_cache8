@@ -1,0 +1,16 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1739875661
+icon.svg::CompressedTexture2D::9156319988338170706::1739870959::1739870964::1::::<><>::
+::res://Scenes/::1739875661
+SC_Background.tscn::PackedScene::7488201881090463438::1739875574::0::1::::<><>::
+::res://Scenes/Tabs/::1739875661
+main_screen.tscn::PackedScene::832063497458225669::1739875662::0::1::::<><>::res://Scripts/S_main_screen.gd<>uid://dexludemq64ko::::res://Scenes/SC_Background.tscn<>uid://7lopbdtrwuk0::::res://Styles/Resources/Geologica-Medium.ttf<>uid://dre57ue11minl::::res://Styles/TO_ButtonHoverMM.tres<>uid://b1ombpdano1gk::::res://Styles/TO_ButtonNormalMM.tres
+SC_Ishickava.tscn::PackedScene::482488368082006202::1739875661::0::1::::<><>::uid://dexludemq64ko::::res://Scenes/SC_Background.tscn
+::res://Scripts/::1739875611
+S_main_screen.gd::GDScript::-1::1739875484::0::1::::<>Control<>::
+::res://Styles/::1739875601
+TO_ButtonHoverMM.tres::StyleBoxFlat::8362609616992811045::1739875377::0::1::::<><>::
+TO_ButtonNormalMM.tres::StyleBoxFlat::4240963089048500670::1739875217::0::1::::<><>::
+::res://Styles/Resources/::1739875601
+Colors.txt::TextFile::-1::1739871410::0::1::::<><>::
+Geologica-Medium.ttf::FontFile::2269628034563640093::1739872139::1739875601::1::::<><>::
