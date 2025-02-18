@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://jq8irye8gtov"]
+[gd_scene load_steps=5 format=3 uid="uid://jq8irye8gtov"]
 
 [ext_resource type="Script" path="res://Scenes/Tabs/s_ishikava.gd" id="1_vi8vu"]
 [ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="1_wf15e"]
 [ext_resource type="Script" path="res://Scenes/Tabs/s_v_box_elements.gd" id="3_3316h"]
+[ext_resource type="Script" path="res://Scenes/Tabs/s_v_box_draw.gd" id="4_s784c"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -41,8 +42,4 @@ layout_mode = 2
 [node name="Control" type="Control" parent="SplitContainer/VBoxDraw"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="LineEdit" type="LineEdit" parent="SplitContainer/VBoxDraw/Control"]
-layout_mode = 0
-offset_right = 67.0625
-offset_bottom = 30.3333
+script = ExtResource("4_s784c")

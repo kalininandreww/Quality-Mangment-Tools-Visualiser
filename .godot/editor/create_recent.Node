@@ -1,3 +1,6 @@
+Label
+HBoxContainer
+Button
 LineEdit
 Control
 ScrollContainer
@@ -5,9 +8,7 @@ ColorRect
 VBoxContainer
 SplitContainer
 CanvasLayer
-Button
 MarginContainer
-Label
 PanelContainer
 TextureRect
 CanvasModulate
