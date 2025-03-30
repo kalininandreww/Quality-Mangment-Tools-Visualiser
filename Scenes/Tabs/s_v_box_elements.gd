@@ -1,11 +1,26 @@
 extends VBoxContainer
 
+@export var branch_tilt:int = -15
+@export var branch_length:int = 150
+@export var sub_length:int = 60
+
+
+var diagram_data = {
+	"spine":
+		{
+		"name": "Хребет",
+		"branches": []
+		}
+}
+
 var elements_panel:Node
 
 func _ready():
 	elements_panel = %VBoxElements
 	add_spine()
 	setup_styles()
+	%DiagramCanvas.draw.connect(_draw_diagram)
+	
 
 
 func add_spine():
@@ -59,6 +74,14 @@ func add_branch(parent_container):
 	branch_container.add_child(branch_header)
 	branch_margin.add_child(branch_container)
 	parent_container.add_child(branch_margin)
+	
+	# Add branch to diagram data
+	var branch_data = {
+		"name": branch_label.text,
+		"subbranches": [] }
+		
+	diagram_data["spine"]["branches"].append(branch_data)
+	update_diagram()  # Redraw the diagram
 
 
 func add_subbranch(parent_container):
@@ -85,7 +108,14 @@ func add_subbranch(parent_container):
 	subbranch_container.add_child(delete_button)
 	subbranch_margin.add_child(subbranch_container)
 	parent_container.add_child(subbranch_margin)
-
+	
+	# Add subbranch to diagram data
+	var branch_index = parent_container.get_index() - 1  # Get the parent branch index
+	var subbranch_data = {
+		"name": subbranch_label.text
+		}
+	diagram_data["spine"]["branches"][branch_index]["subbranches"].append(subbranch_data)
+	update_diagram()  # Redraw the diagram
 
 func delete_element(element_container):
 	element_container.queue_free()
@@ -107,6 +137,57 @@ func on_rename_complete(new_text, label, line_edit, label_parent):
 	label_parent.add_child(label)
 	label_parent.move_child(label, 0)
 	label.show()
+
+func update_diagram():
+	# Clear the diagram
+	%DiagramCanvas.queue_redraw()
+
+func _draw_diagram():
+	var font = get_theme_default_font()
+	var font_size = get_theme_default_font_size()
+	theme.set_color("font_color", "Label", Color.BLACK)
+	
+	var canvas = %DiagramCanvas
+	canvas.draw_rect(Rect2(Vector2.ZERO, canvas.size), Color("#FEFAE0"), true)  # Clear the canvas
+	
+	# Draw the spine
+	var spine_start = Vector2(50, canvas.size.y / 2)
+	var spine_end = Vector2(canvas.size.x - 50, canvas.size.y / 2)
+	canvas.draw_line(spine_start, spine_end, Color.BLACK, 2.0)
+	# Draw branches
+	var branch_spacing = (canvas.size.x - 100) / (diagram_data["spine"]["branches"].size() + 1)
+	for i in range(diagram_data["spine"]["branches"].size()):
+		var branch = diagram_data["spine"]["branches"][i]
+		var branch_start = spine_start + Vector2(branch_spacing * (i + 1), 0)
+		var direction = 1 if i % 2 == 0 else -1
+		var angle = deg_to_rad(branch_tilt)
+		var branch_end = branch_start + Vector2(
+			sin(angle) * branch_length,
+			cos(angle) * -branch_length * direction)
+		canvas.draw_line(branch_start, branch_end, Color(0, 0, 0), 2)
+		canvas.draw_string(font, branch_end + Vector2(-20, -10), branch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.BLACK)
+		
+		# Draw subbranches
+		var subbranch_count = branch["subbranches"].size()
+		var sub_spacing = branch_length / (subbranch_count + 1)
+		if sub_spacing > 0:
+			for j in range(branch["subbranches"].size()):
+				var subbranch = branch["subbranches"][j]
+				var sub_angle = deg_to_rad(0)  # Parallel to spine
+				var sub_direction = (1 if j % 2 == 0 else -1)
+				
+				var sub_start = branch_start + Vector2(
+					sin(angle) * sub_spacing * (j + 1),
+					cos(angle) * sub_spacing * -(j + 1) * (1 if i % 2 == 0 else -1)
+					)
+				
+				var subbranch_end = sub_start + Vector2(
+					sub_length * sub_direction,
+					0)
+				
+				canvas.draw_line(sub_start, subbranch_end, Color(0, 0, 0), 2)
+				var text_offset = Vector2(10 * sub_direction, -5)
+				canvas.draw_string(font, subbranch_end + text_offset, subbranch["name"], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
 
 
 func setup_styles():
