@@ -33,6 +33,7 @@ unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("3_3316h")
 branch_length = 240
+sub_length = 105
 spine_offset_left = 120
 bones_are_alined = true
 
