@@ -1,8 +1,5 @@
-res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/Tabs/SC_Ishikava.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/SC_Ishikava.tscn
-res://Scenes/SC_Background.tscn
-res://testforstyles.tscn
+res://Scenes/Tabs/SC_main_screen.tscn
 res://Scenes/Tabs/s_v_box_elements.gd
-res://Scenes/Tabs/s_v_box_draw.gd
