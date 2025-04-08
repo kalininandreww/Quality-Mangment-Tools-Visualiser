@@ -7,6 +7,15 @@ extends VBoxContainer
 @export var bones_are_alined:bool = false
 @export var length_step_modifier:float = 0.23
 
+# Added color export variables
+@export var background_color:Color = Color("#FEFAE0")
+@export var spine_color:Color = Color.BLACK
+@export var branch_color:Color = Color.BLACK
+@export var subbranch_color:Color = Color.BLACK
+@export var subsubbone_color:Color = Color.BLACK
+@export var text_color:Color = Color.BLACK
+@export var ui_text_color:Color = Color.BLACK  # New variable for UI text color
+
 var last_branch_pos
 
 var file_dialog = null
@@ -27,7 +36,6 @@ var elements_panel:Node
 func _ready():
 	elements_panel = %VBoxElements
 	add_spine()
-	setup_styles()
 	%DiagramCanvas.draw.connect(_draw_diagram)
 
 
@@ -36,6 +44,7 @@ func add_spine():
 	var spine_header = HBoxContainer.new()
 	
 	var spine_label = Label.new()
+	spine_label.add_theme_color_override("font_color", ui_text_color)  # Set label color
 	diagram_data["spine"]["label_ref"] = spine_label
 	spine_label.text = "Хребет"
 	
@@ -64,6 +73,7 @@ func add_branch(parent_container):
 	branch_margin.add_theme_constant_override("margin_left", 20)
 	
 	var branch_label = Label.new()
+	branch_label.add_theme_color_override("font_color", ui_text_color)  # Set label color
 	branch_label.text = "Кость"
 	
 	var rename_button = Button.new()
@@ -105,6 +115,7 @@ func add_subbranch(parent_container):
 	subbranch_margin.add_theme_constant_override("margin_left", 20)
 	
 	var subbranch_label = Label.new()
+	subbranch_label.add_theme_color_override("font_color", ui_text_color)  # Set label color
 	subbranch_label.text = "Подкость"
 	
 	var rename_button = Button.new()
@@ -148,6 +159,7 @@ func add_subsubbone(parent_container):
 	subsubbone_margin.add_theme_constant_override("margin_left", 40)
 
 	var subsubbone_label = Label.new()
+	subsubbone_label.add_theme_color_override("font_color", ui_text_color)  # Set label color
 	subsubbone_label.text = "Подподкость"
 
 	var rename_button = Button.new()
@@ -264,6 +276,7 @@ func rename_element(label):
 
 func on_rename_complete(new_text, label, line_edit, label_parent):
 	label.text = new_text
+	label.add_theme_color_override("font_color", ui_text_color)  # Set label color after renaming
 	
 	if label == diagram_data["spine"]["label_ref"]:
 		diagram_data["spine"]["name"] = new_text
@@ -309,21 +322,20 @@ func update_diagram():
 func _draw_diagram():
 	var font = get_theme_default_font()
 	var font_size = get_theme_default_font_size()
-	theme.set_color("font_color", "Label", Color.BLACK)
 	
 	var canvas = %DiagramCanvas
-	canvas.draw_rect(Rect2(Vector2.ZERO, canvas.size), Color("#FEFAE0"), true)  # Clear the canvas
+	canvas.draw_rect(Rect2(Vector2.ZERO, canvas.size), background_color, true)  # Clear the canvas
 	
 	# Draw the spine
 	var spine_start = Vector2(50, canvas.size.y / 2)
 	var spine_end = Vector2(canvas.size.x - spine_offset_left, canvas.size.y / 2)
-	canvas.draw_line(spine_start, spine_end, Color.BLACK, 2.0)
+	canvas.draw_line(spine_start, spine_end, spine_color, 2.0)
 	
 	#Draw spine label
 	var spine_name_pos = Vector2(
 	spine_end.x+3,
 	spine_start.y+5)
-	canvas.draw_string(font, spine_name_pos, diagram_data["spine"]["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.BLACK)
+	canvas.draw_string(font, spine_name_pos, diagram_data["spine"]["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, text_color)
 	
 	# Draw branches
 	var branch_spacing
@@ -351,12 +363,12 @@ func _draw_diagram():
 		var branch_end = branch_pos + Vector2(
 			sin(angle) * branch_length,
 			cos(angle) * -branch_length * direction)
-		canvas.draw_line(branch_pos, branch_end, Color(0, 0, 0), 2)
+		canvas.draw_line(branch_pos, branch_end, branch_color, 2)
 		
 		if direction == 1:
-			canvas.draw_string(font, branch_end + Vector2(-20, -5), branch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.BLACK)
+			canvas.draw_string(font, branch_end + Vector2(-20, -5), branch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, text_color)
 		else:
-			canvas.draw_string(font, branch_end + Vector2(-20, 15), branch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.BLACK)
+			canvas.draw_string(font, branch_end + Vector2(-20, 15), branch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, text_color)
 		
 		# Draw subbranches
 		var subbranch_count = branch["subbranches"].size()
@@ -375,16 +387,16 @@ func _draw_diagram():
 					sub_length * sub_direction,
 					0)
 				
-				canvas.draw_line(sub_start, subbranch_end, Color(0, 0, 0), 2)
+				canvas.draw_line(sub_start, subbranch_end, subbranch_color, 2)
 				
 				var text_width = font.get_string_size(subbranch["name"], HORIZONTAL_ALIGNMENT_CENTER, -1, font_size).x
 				var text_pos = Vector2.ZERO
 				if sub_direction == -1:  # Left side
 					text_pos = sub_start - Vector2(text_width+7, 10)
-					canvas.draw_string(font, text_pos, subbranch["name"], HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size, Color.BLACK)
+					canvas.draw_string(font, text_pos, subbranch["name"], HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size, text_color)
 				else:  # Right side
 					text_pos = sub_start + Vector2(8, -10)
-					canvas.draw_string(font, text_pos, subbranch["name"], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
+					canvas.draw_string(font, text_pos, subbranch["name"], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, text_color)
 	
 				# Draw subsubbones
 				if subbranch.has("subsubbones"):
@@ -412,7 +424,7 @@ func _draw_diagram():
 							)
 
 							# Draw the line
-							canvas.draw_line(subsub_start, subsub_end, Color(0, 0, 0), 1.5)
+							canvas.draw_line(subsub_start, subsub_end, subsubbone_color, 1.5)
 
 							# Text positioning at end of line
 							var text = subsubbone["name"]
@@ -420,29 +432,11 @@ func _draw_diagram():
 
 							if sub_direction < 0:  # Left-pointing subbone
 								var sub_text_pos = subsub_end - Vector2(sub_text_width + 5, -5)
-								canvas.draw_string(font, sub_text_pos, text, HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size, Color.BLACK)
+								canvas.draw_string(font, sub_text_pos, text, HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size, text_color)
 							else:  # Right-pointing subbone
 								var sub_text_pos = subsub_end + Vector2(5, 5)
-								canvas.draw_string(font, sub_text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
+								canvas.draw_string(font, sub_text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, text_color)
 
-
-func setup_styles():
-	# Style for buttons
-	var button_style = StyleBoxFlat.new()
-	button_style.bg_color = Color("8EB8E5")
-	button_style.corner_radius_top_left = 15
-	button_style.corner_radius_top_right = 15
-	button_style.corner_radius_bottom_left = 15
-	button_style.corner_radius_bottom_right = 15
-	
-	# Apply styles
-	var theme = Theme.new()
-	theme.set_stylebox("normal", "Button", button_style)
-	theme.set_color("font_color", "Label", Color(211103))
-	theme.set_color("font_color", "Button", Color(211103))
-	
-	# Assign the theme to the root node
-	self.theme = theme
 
 func _on_save_button_pressed():
 	# Create a FileDialog to choose where to save
