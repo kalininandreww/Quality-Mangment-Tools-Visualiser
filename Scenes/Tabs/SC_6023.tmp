@@ -42,7 +42,6 @@ text = "Добавить"
 [node name="DiagramContainer" type="Control" parent="SplitContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
 
 [node name="SaveButton" type="Button" parent="SplitContainer/DiagramContainer"]
 unique_name_in_owner = true

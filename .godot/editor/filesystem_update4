@@ -9,3 +9,5 @@ res://parameter_item.gd
 res://Scripts/s_paretto.gd
 res://Scripts/S_main_screen.gd
 res://Scenes/SC_Background.tscn
+res://Styles/Resources/Colors.txt
+res://Scripts/s_v_box_elements.gd
