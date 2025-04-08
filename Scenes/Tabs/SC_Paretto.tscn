@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://4b0ofa4dnvtd"]
+
+[ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="1_e1sqm"]
+[ext_resource type="Script" path="res://Scripts/s_paretto.gd" id="1_pkvxt"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pkvxt")
+
+[node name="Background" parent="." instance=ExtResource("1_e1sqm")]
+
+[node name="SplitContainer" type="SplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 240
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SplitContainer"]
+layout_mode = 2
+
+[node name="ParametersContainer" type="VBoxContainer" parent="SplitContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="SplitContainer/ScrollContainer/ParametersContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Добавить"
+
+[node name="DiagramContainer" type="Control" parent="SplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2

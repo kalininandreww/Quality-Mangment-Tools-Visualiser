@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://jq8irye8gtov"]
+[gd_scene load_steps=3 format=3 uid="uid://jq8irye8gtov"]
 
-[ext_resource type="Script" path="res://Scenes/Tabs/s_ishikava.gd" id="1_vi8vu"]
 [ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="1_wf15e"]
-[ext_resource type="Script" path="res://Scenes/Tabs/s_v_box_elements.gd" id="3_3316h"]
+[ext_resource type="Script" path="res://Scripts/s_v_box_elements.gd" id="3_3316h"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,7 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_vi8vu")
 
 [node name="Background" parent="." instance=ExtResource("1_wf15e")]
 

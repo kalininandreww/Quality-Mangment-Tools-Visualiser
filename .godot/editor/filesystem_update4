@@ -1,5 +1,11 @@
 res://Scenes/Tabs/SC_Ishikava.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
+res://Scenes/Tabs/SC_Paretto.tscn
+res://Scenes/Tabs/sc_paretto.gd
 res://Scenes/Tabs/SC_main_screen.tscn
-res://Scenes/Tabs/s_v_box_elements.gd
+res://Scenes/sc_parameter_item.tscn
+res://parameter_item.gd
+res://Scripts/s_paretto.gd
+res://Scripts/S_main_screen.gd
+res://Scenes/SC_Background.tscn

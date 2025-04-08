@@ -205,3 +205,4 @@ theme_override_styles/normal = ExtResource("5_eusem")
 text = "Контрольная Карта"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Ishikawa" to="." method="_on_b_ishikawa_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Paretto" to="." method="_on_b_paretto_pressed"]
