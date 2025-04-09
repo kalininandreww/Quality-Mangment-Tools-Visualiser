@@ -1,11 +1,6 @@
-res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/Tabs/sc_histogram.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/SC_Ishikava.tscn
-res://Scenes/Tabs/SC_Paretto.tscn
-res://Scenes/sc_parameter_item.tscn
+res://Scenes/Tabs/SC_main_screen.tscn
 res://Scenes/SC_Background.tscn
-res://Scripts/s_paretto.gd
-res://Scripts/s_save_button.gd
-res://Scenes/SC_save_button.tscn
-res://Scripts/s_v_box_elements.gd
+res://Scripts/s_histogram.gd

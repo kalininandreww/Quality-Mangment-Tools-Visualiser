@@ -44,7 +44,7 @@ func _ready():
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_diagram)
-
+	
 func _on_add_button_pressed():
 	var param_item = PARAM_SCENE.instantiate()
 	parameters_container.add_child(param_item)
