@@ -1,9 +1,10 @@
-TextEdit
+CheckBox
 Label
+HBoxContainer
+TextEdit
 Button
 VBoxContainer
 HSlider
-HBoxContainer
 Control
 LineEdit
 Container

@@ -25,6 +25,9 @@ extends Control
 @onready var stats_label = %StatsLabel
 @onready var data_label = %NumOfbinsLabel
 @onready var bin_count_label = %BinValueLabel
+@onready var label_all_bins_checkbox = %LabelAllBinsCheckBox
+@onready var checkbox_label = %CheckboxLabel
+
 
 # Constants
 const MARGIN_LEFT = 80
@@ -51,6 +54,7 @@ var statistics = {
 	"sample_size": 0
 }
 var file_dialog = null
+var label_all_bins = false
 
 func _ready():
 	# Apply text colors to UI elements
@@ -77,6 +81,9 @@ func _ready():
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_histogram)
+	
+	# Setup the checkbox for bin labeling
+	label_all_bins_checkbox.connect("toggled", _on_label_all_bins_toggled)
 
 func _apply_text_colors():
 	# Apply text colors to all relevant UI elements
@@ -84,6 +91,7 @@ func _apply_text_colors():
 	bin_count_label.add_theme_color_override("font_color", label_text_color)
 	bin_value_label.add_theme_color_override("font_color", label_text_color)
 	stats_label.add_theme_color_override("font_color", label_text_color)
+	checkbox_label.add_theme_color_override("font_color", label_text_color)
 	
 	data_input.add_theme_color_override("font_color", input_text_color)
 	
@@ -98,6 +106,12 @@ func _on_bin_slider_changed(value):
 	if raw_data.size() > 0:
 		_calculate_histogram()
 		_update_statistics_label()
+		diagram_container.queue_redraw()
+
+func _on_label_all_bins_toggled(button_pressed):
+	label_all_bins = button_pressed
+	# Redraw the histogram with the new labeling preference
+	if raw_data.size() > 0:
 		diagram_container.queue_redraw()
 
 func _on_analyze_button_pressed():
@@ -275,42 +289,70 @@ func _draw_histogram():
 	for i in range(histogram_data.bins.size()):
 		var bin_center = histogram_data.bins[i]
 		var count = histogram_data.counts[i]
-		
+
 		# Calculate position
 		var bar_height = (count / float(max_count)) * height
 		var bar_x = start_x + i * bar_width
 		var bar_y = start_y - bar_height
-		
+
 		# Calculate gradient color based on position in sequence
 		var t = i / float(max(1, histogram_data.bins.size() - 1))  # Normalized position [0..1]
 		var bar_color = bar_first_color.lerp(bar_last_color, t)   # Linear interpolation between colors
-		
+
 		# Draw bar with gradient color
 		canvas.draw_rect(Rect2(bar_x, bar_y, bar_width, bar_height), bar_color)
-		
+
 		# Draw count on top of the bar
 		var count_text = str(count)
 		var count_width = font.get_string_size(count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		if bar_height > font_size:
 			canvas.draw_string(font, Vector2(bar_x + bar_width/2 - count_width/2, bar_y - 5), 
-						count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
-		
+			count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+
 		# Draw bin range label on x-axis
 		var lower_edge = histogram_data.bin_edges[i]
 		var upper_edge = histogram_data.bin_edges[i + 1]
-		var edge_text = str(snapped(lower_edge, 0.01))
-		
-		# Only draw every other bin edge for readability if many bins
-		if i % 2 == 0 or histogram_data.bins.size() < 10:
-			var text_width = font.get_string_size(edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-			canvas.draw_string(font, Vector2(bar_x + 5, start_y + 20), 
-							edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
-	
-	# Draw the last upper edge
-	var last_edge_text = str(snapped(histogram_data.bin_edges[histogram_data.bin_edges.size() - 1], 0.01))
-	var last_x = start_x + histogram_data.bins.size() * bar_width
-	canvas.draw_string(font, Vector2(last_x - 20, start_y + 20), 
-					  last_edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+
+		# Different labeling based on checkbox state
+		if label_all_bins:
+			# Label all bins with their range
+			var bin_range_text = str(snapped(lower_edge, 0.01)) + "-" + str(snapped(upper_edge, 0.01))
+
+			# Calculate text position and rotation as needed
+			var text_width = font.get_string_size(bin_range_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+
+			# For many bins, rotate the text to fit better
+			if histogram_data.bins.size() > 8:
+				# Rotate labels to prevent overlap
+				var rotation = PI/4  # 45 degrees
+				var text_pos = Vector2(bar_x + bar_width/2, start_y + 10)
+
+				# Save canvas state, rotate, draw text, restore state
+				canvas.draw_set_transform(text_pos, rotation, Vector2(1, 1))
+				canvas.draw_string(font, Vector2(0, 0), bin_range_text, 
+				HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+				canvas.draw_set_transform(Vector2.ZERO, 0, Vector2(1, 1))  # Reset transform
+			else:
+				# For fewer bins, show horizontal labels
+				var text_pos = Vector2(bar_x + bar_width/2 - text_width/2, start_y + 20)
+				canvas.draw_string(font, text_pos, bin_range_text, 
+				HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+		else:
+			# Original labeling method (only every other bin or if few bins)
+			var edge_text = str(snapped(lower_edge, 0.01))
+
+			# Only draw every other bin edge for readability if many bins
+			if i % 2 == 0 or histogram_data.bins.size() < 10:
+				var text_width = font.get_string_size(edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+				canvas.draw_string(font, Vector2(bar_x + 5, start_y + 20), 
+				edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+
+	# Draw the last upper edge (only in original mode or if it's the last bin in all-bins mode)
+	if not label_all_bins or (label_all_bins and histogram_data.bins.size() < 8):
+		var last_edge_text = str(snapped(histogram_data.bin_edges[histogram_data.bin_edges.size() - 1], 0.01))
+		var last_x = start_x + histogram_data.bins.size() * bar_width
+		canvas.draw_string(font, Vector2(last_x - 20, start_y + 20), 
+					last_edge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 	
 	# Draw y-axis labels (count scale)
 	for i in range(6):  # 0, 20%, 40%, 60%, 80%, 100% of max count
