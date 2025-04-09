@@ -2,11 +2,13 @@ extends Control
 
 # Exportable variables
 @export var min_bar_value: float = 0.0
-@export var other_name: String = "Others"
+@export var other_name: String = "Прочее"
 @export_color_no_alpha var axis_color: Color = Color.WHITE
 @export_color_no_alpha var bar_text_color: Color = Color.WHITE
 @export_color_no_alpha var cumulative_line_color: Color = Color.RED
 @export_color_no_alpha var cutoff_line_color: Color = Color.YELLOW
+@export_color_no_alpha var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
+@export_color_no_alpha var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
 
 # Node references
 @onready var split_container = $SplitContainer
@@ -133,26 +135,72 @@ func _draw_diagram():
 	# Y-axis
 	canvas.draw_line(Vector2(start_x, start_y), Vector2(start_x, end_y), axis_color, 2)
 	
+	# Calculate total value for percentages
+	var total_value = 0
+	for param in parameters:
+		total_value += param.value
+	
 	# Calculate bar width
 	var bar_width = (width - BAR_GAP * (parameters.size() - 1)) / parameters.size()
+	
+	# Keep track of the widest value text for adaptive label positioning
+	var max_value_text_width = 0
+	
+	# CORRECTION: Draw value scale on left side (y-axis)
+	var max_value_to_show = total_value
+	for i in range(0, 6):  # Show 6 value ticks (0, 20%, 40%, 60%, 80%, 100% of total)
+		var y_pos = start_y - (i / 5.0) * height
+		var value_at_pos = (i / 5.0) * max_value_to_show
+		var value_text = str(int(value_at_pos))
+		
+		# Draw tick
+		canvas.draw_line(Vector2(start_x - 5, y_pos), Vector2(start_x, y_pos), axis_color, 1)
+		
+		# Calculate text width for adaptive positioning
+		var text_width = font.get_string_size(value_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		max_value_text_width = max(max_value_text_width, text_width)
+		
+		# Draw value text on left
+		canvas.draw_string(font, Vector2(start_x - text_width - 5, y_pos + font_size/4), 
+					value_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+	
+	# Draw percentage scale on right side
+	for i in range(0, 101, 20):
+		var y_pos = start_y - (i / 100.0) * height
+		var percent_text = str(i) + "%"
+		var text_width = font.get_string_size(percent_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		
+		# Draw tick
+		canvas.draw_line(Vector2(end_x - 5, y_pos), Vector2(end_x, y_pos), axis_color, 1)
+		
+		# Draw percentage text on right
+		canvas.draw_string(font, Vector2(end_x + 5, y_pos + font_size/4), 
+					percent_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 	
 	# Draw bars and names
 	var x = start_x
 	var points = []  # For cumulative line
+	var cumulative_value = 0
+	var intersection_x = -1  # For 80% line
+	var intersection_y = -1
 	
 	for i in range(parameters.size()):
 		var param = parameters[i]
-		var bar_height = (param.value / parameters[0].value) * height if parameters[0].value > 0 else 0
+		# Calculate the percentage this parameter represents
+		var percentage = (param.value / total_value * 100) if total_value > 0 else 0
+		cumulative_value += percentage
+		
+		# Bar height based on percentage
+		var bar_height = (percentage / 100) * height
 		var bar_x = x
 		var bar_y = start_y - bar_height
 		
 		# Draw bar
-		var color = Color(0.2 + 0.6 * (i / float(parameters.size())), 
-						  0.7 - 0.4 * (i / float(parameters.size())), 
-						  0.9 - 0.6 * (i / float(parameters.size())))
+		var t = i / float(max(1, parameters.size() - 1))  # Normalized position [0..1]
+		var color = bar_first_color.lerp(bar_last_color, t)  # Linear interpolation between colors
 		canvas.draw_rect(Rect2(bar_x, bar_y, bar_width, bar_height), color)
 		
-		# Draw parameter name
+		# Draw parameter name on x-axis (only names, no values)
 		var name_text = param.name
 		var font_height = font.get_height(font_size)
 		var text_width = font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
@@ -189,43 +237,60 @@ func _draw_diagram():
 			canvas.draw_string(font, Vector2(bar_x + bar_width/2 - text_width/2, start_y + 10 + font_height), 
 							name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 		
-		# Draw value on top of the bar
-		var value_text = str(param.value)
+		# Draw value and percentage on top of the bar
+		var value_text = str(param.value) + " (" + str(int(percentage)) + "%)"
 		var value_width = font.get_string_size(value_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		canvas.draw_string(font, Vector2(bar_x + bar_width/2 - value_width/2, bar_y - 5), 
 						value_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 		
-		# Add point for cumulative line
-		points.append(Vector2(bar_x + bar_width/2, start_y - (param.cumulative / 100) * height))
+		# Add point for cumulative line - starting from right edge of first bar
+		var point_x = bar_x + bar_width
+		var point_y = start_y - (cumulative_value / 100) * height
+		points.append(Vector2(point_x, point_y))
+		
+		# Check if we crossed the 80% mark
+		if cumulative_value >= 80 and intersection_x == -1:
+			# Find the intersection point more precisely
+			var prev_cum = cumulative_value - percentage
+			if prev_cum < 80:
+				# Calculate where the 80% line intersects the cumulative line
+				var ratio = (80 - prev_cum) / percentage
+				intersection_x = bar_x + ratio * bar_width
+				intersection_y = start_y - 0.8 * height
+			else:
+				# If the first bar already exceeds 80%
+				intersection_x = bar_x
+				intersection_y = start_y - 0.8 * height
 		
 		# Move to next bar position
 		x += bar_width + BAR_GAP
+	
+	# Draw 80% horizontal line from right side to intersection point
+	var y_80 = start_y - 0.8 * height
+	
+	if intersection_x != -1:
+		# First part: horizontal from right to intersection
+		canvas.draw_dashed_line(Vector2(end_x, y_80), Vector2(intersection_x, y_80), cutoff_line_color, 1, 5)
+		# Second part: vertical down from intersection
+		canvas.draw_dashed_line(Vector2(intersection_x, y_80), Vector2(intersection_x, start_y), cutoff_line_color, 1, 5)
+	else:
+		# If no intersection found, just draw horizontal line
+		canvas.draw_dashed_line(Vector2(start_x, y_80), Vector2(end_x, y_80), cutoff_line_color, 1, 5)
+	
+	# IMPROVED: Draw "80%" label with adaptive positioning to avoid overlap
+	var percent_80_text = "80%"
+	var percent_80_width = font.get_string_size(percent_80_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	
+	# Position it left of the widest value text with a buffer
+	var label_x = start_x - max_value_text_width - percent_80_width - 10  # Extra padding to ensure separation
+	
+	canvas.draw_string(font, Vector2(label_x, y_80 + font_size/4), 
+				percent_80_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 	
 	# Draw cumulative percentage line
 	if points.size() > 1:
 		for i in range(points.size() - 1):
 			canvas.draw_line(points[i], points[i + 1], cumulative_line_color, 2)
-	
-	# Draw percentage labels on right side
-	for i in range(0, 101, 20):
-		var y_pos = start_y - (i / 100.0) * height
-		var percent_text = str(i) + "%"
-		var text_width = font.get_string_size(percent_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-		
-		# Draw tick
-		canvas.draw_line(Vector2(end_x - 5, y_pos), Vector2(end_x, y_pos), axis_color, 1)
-		
-		# Draw percentage text
-		canvas.draw_string(font, Vector2(end_x + 5, y_pos + font_size/4), 
-					percent_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
-	
-	# Draw 80% horizontal line (Pareto principle)
-	var y_80 = start_y - 0.8 * height
-	canvas.draw_dashed_line(Vector2(start_x, y_80), Vector2(end_x, y_80), cutoff_line_color, 1, 5)
-	
-	# Draw "80%" label
-	canvas.draw_string(font, Vector2(start_x - font.get_string_size("80%", HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x - 5, y_80 + font_size/4), 
-				"80%", HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
 
 func _on_save_button_pressed():
 	# Create a FileDialog to choose where to save
