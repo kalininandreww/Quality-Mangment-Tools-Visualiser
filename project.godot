@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Diploma"
+config/name="QMTV"
+config/description="Quality Managment Tools Visualiser"
+config/version="1.0"
 run/main_scene="res://Scenes/Tabs/SC_main_screen.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://ruler256.png"
+config/macos_native_icon="res://ruler256.icns"
+config/windows_native_icon="res://ruler256.ico"
 
 [display]
 

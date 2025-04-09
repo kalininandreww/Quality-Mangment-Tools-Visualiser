@@ -1,6 +1,3 @@
-res://Scenes/Tabs/sc_histogram.tscn
+res://Scenes/Tabs/SC_main_screen.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/SC_main_screen.tscn
-res://Scenes/SC_Background.tscn
-res://Scripts/s_histogram.gd

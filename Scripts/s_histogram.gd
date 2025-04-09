@@ -77,7 +77,7 @@ func _ready():
 	save_button.connect("pressed", _on_save_button_pressed)
 	
 	# Setup data input placeholder
-	data_input.placeholder_text = "Введите данные разделенные запятой (пример: 1.2, 3.4, 5.6)"
+	data_input.placeholder_text = "Введите данные разделенные запятой (пример: 1.2, 3.4, 5.6)   "
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_histogram)
