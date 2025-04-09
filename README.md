@@ -13,4 +13,4 @@ How to use: <br/>\
   <br>1. Add the names of the parameters <br/>
   <br>2. Add their values <br/>
   <br>3. If you call the parameter "Others" it goes to the right-most spot <br/>
-  <br>4. 3. Save the diagram as png by pressing the button in bottom-right <br/>
+  <br>4. Save the diagram as png by pressing the button in bottom-right <br/>
