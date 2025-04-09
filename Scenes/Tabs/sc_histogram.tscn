@@ -12,8 +12,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h4qdb")
 axis_color = Color(0, 0, 0, 1)
-bar_color = Color(0.713726, 0.27451, 0.372549, 1)
+label_text_color = Color(0, 0, 0, 1)
+input_text_color = Color(0, 0, 0, 1)
 bar_text_color = Color(0, 0, 0, 1)
+bar_first_color = Color(0.556863, 0.721569, 0.898039, 1)
+bar_last_color = Color(0.713726, 0.27451, 0.882353, 1)
 normal_curve_color = Color(0.713726, 0.27451, 0.372549, 1)
 mean_line_color = Color(0.32549, 0.478431, 0.352941, 1)
 std_dev_line_color = Color(0.556863, 0.721569, 0.898039, 1)
@@ -27,7 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 240
+split_offset = 250
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SplitContainer"]
 layout_mode = 2
@@ -55,9 +58,10 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="SplitContainer/ScrollContainer/InputContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SplitContainer/ScrollContainer/InputContainer/VBoxContainer"]
+[node name="NumOfbinsLabel" type="Label" parent="SplitContainer/ScrollContainer/InputContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Number of Bins:"
+text = "Количество столбцов:"
 
 [node name="BinSlider" type="HSlider" parent="SplitContainer/ScrollContainer/InputContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -67,6 +71,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "1"
+horizontal_alignment = 1
 
 [node name="AnalyzeButton" type="Button" parent="SplitContainer/ScrollContainer/InputContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -77,7 +82,6 @@ text = "AnalyzeButton"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
-text = "StatsLabel"
 autowrap_mode = 1
 
 [node name="DiagramContainer" type="Control" parent="SplitContainer"]

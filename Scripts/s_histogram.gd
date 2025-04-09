@@ -1,11 +1,14 @@
 extends Control
 
 # Exportable variables
-@export var min_bin_count: int = 3  # Minimum number of bins
+@export var min_bin_count: int = 5  # Minimum number of bins
 @export var max_bin_count: int = 20  # Maximum number of bins
 @export_color_no_alpha var axis_color: Color = Color.WHITE
-@export_color_no_alpha var bar_color: Color = Color(0.2, 0.7, 0.9)
-@export_color_no_alpha var bar_text_color: Color = Color.WHITE
+@export_color_no_alpha var label_text_color: Color = Color.WHITE  # For all UI labels
+@export_color_no_alpha var input_text_color: Color = Color.WHITE  # For TextEdit input
+@export_color_no_alpha var bar_text_color: Color = Color.WHITE    # For text on histogram bars
+@export_color_no_alpha var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
+@export_color_no_alpha var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
 @export_color_no_alpha var normal_curve_color: Color = Color.RED
 @export_color_no_alpha var mean_line_color: Color = Color.GREEN
 @export_color_no_alpha var std_dev_line_color: Color = Color.YELLOW
@@ -20,6 +23,8 @@ extends Control
 @onready var diagram_container = %DiagramContainer
 @onready var save_button = %SaveButton
 @onready var stats_label = %StatsLabel
+@onready var data_label = %NumOfbinsLabel
+@onready var bin_count_label = %BinValueLabel
 
 # Constants
 const MARGIN_LEFT = 80
@@ -48,10 +53,11 @@ var statistics = {
 var file_dialog = null
 
 func _ready():
-	
+	# Apply text colors to UI elements
+	_apply_text_colors()
 	
 	# Set up analyze button
-	analyze_button.text = "Analyze Data"
+	analyze_button.text = "Анализировать данные"
 	analyze_button.connect("pressed", _on_analyze_button_pressed)
 	
 	# Set up bin slider
@@ -63,17 +69,29 @@ func _ready():
 	_update_bin_label(bin_slider.value)
 	
 	# Setup save button
-	save_button.text = "Save as PNG"
+	save_button.text = "Сохранить"
 	save_button.connect("pressed", _on_save_button_pressed)
 	
 	# Setup data input placeholder
-	data_input.placeholder_text = "Введите данные разделеные запятой (т.е. 1.2, 3.4, 5.6)  "
+	data_input.placeholder_text = "Введите данные разделенные запятой (пример: 1.2, 3.4, 5.6)"
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_histogram)
 
+func _apply_text_colors():
+	# Apply text colors to all relevant UI elements
+	data_label.add_theme_color_override("font_color", label_text_color)
+	bin_count_label.add_theme_color_override("font_color", label_text_color)
+	bin_value_label.add_theme_color_override("font_color", label_text_color)
+	stats_label.add_theme_color_override("font_color", label_text_color)
+	
+	data_input.add_theme_color_override("font_color", input_text_color)
+	
+	analyze_button.add_theme_color_override("font_color", label_text_color)
+	save_button.add_theme_color_override("font_color", label_text_color)
+
 func _update_bin_label(value):
-	bin_value_label.text = "Bins: " + str(int(value))
+	bin_value_label.text = str(int(value))
 
 func _on_bin_slider_changed(value):
 	_update_bin_label(value)
@@ -85,7 +103,7 @@ func _on_bin_slider_changed(value):
 func _on_analyze_button_pressed():
 	var text = data_input.text.strip_edges()
 	if text.is_empty():
-		_show_error("Please enter some data values.")
+		_show_error("Введите данные")
 		return
 	
 	# Parse the comma-separated values
@@ -101,7 +119,7 @@ func _on_analyze_button_pressed():
 			return
 	
 	if raw_data.size() < 2:
-		_show_error("Please enter at least 2 values for meaningful analysis.")
+		_show_error("Введите хотя бы два значения для осмысленного анализа")
 		return
 	
 	# Calculate histogram and statistics
@@ -195,21 +213,22 @@ func _calculate_histogram():
 				break
 
 func _update_statistics_label():
-	var text = "Statistics:\n"
-	text += "Sample Size: " + str(statistics.sample_size) + "\n"
-	text += "Mean: " + str(snapped(statistics.mean, 0.001)) + "\n"
-	text += "Median: " + str(snapped(statistics.median, 0.001)) + "\n"
-	text += "Mode: " + str(snapped(statistics.mode, 0.001)) + "\n"
-	text += "Std Dev: " + str(snapped(statistics.std_dev, 0.001)) + "\n"
-	text += "Min: " + str(snapped(statistics.min, 0.001)) + "\n"
-	text += "Max: " + str(snapped(statistics.max, 0.001)) + "\n"
-	text += "Range: " + str(snapped(statistics.range, 0.001))
+	var text = "Статистика:\n"
+	text += "Размер выборки: " + str(statistics.sample_size) + "\n"
+	text += "Среднее: " + str(snapped(statistics.mean, 0.001)) + "\n"
+	text += "Медиана: " + str(snapped(statistics.median, 0.001)) + "\n"
+	text += "Мода: " + str(snapped(statistics.mode, 0.001)) + "\n"
+	text += "Среднекв. отклонение: " + str(snapped(statistics.std_dev, 0.001)) + "\n"
+	text += "Минимальное: " + str(snapped(statistics.min, 0.001)) + "\n"
+	text += "Максимально: " + str(snapped(statistics.max, 0.001)) + "\n"
+	text += "Размах: " + str(snapped(statistics.range, 0.001))
 	
 	stats_label.text = text
 
 func _show_error(message):
 	var error_dialog = AcceptDialog.new()
 	error_dialog.dialog_text = message
+	error_dialog.add_theme_color_override("font_color", label_text_color)
 	add_child(error_dialog)
 	error_dialog.popup_centered()
 
@@ -262,7 +281,11 @@ func _draw_histogram():
 		var bar_x = start_x + i * bar_width
 		var bar_y = start_y - bar_height
 		
-		# Draw bar
+		# Calculate gradient color based on position in sequence
+		var t = i / float(max(1, histogram_data.bins.size() - 1))  # Normalized position [0..1]
+		var bar_color = bar_first_color.lerp(bar_last_color, t)   # Linear interpolation between colors
+		
+		# Draw bar with gradient color
 		canvas.draw_rect(Rect2(bar_x, bar_y, bar_width, bar_height), bar_color)
 		
 		# Draw count on top of the bar
@@ -338,8 +361,8 @@ func _draw_histogram():
 	# Draw vertical line for mean
 	var mean_x = start_x + (statistics.mean - statistics.min) / statistics.range * width
 	canvas.draw_line(Vector2(mean_x, start_y), Vector2(mean_x, end_y), mean_line_color, 2)
-	var mean_label = "Mean: " + str(snapped(statistics.mean, 0.01))
-	canvas.draw_string(font, Vector2(mean_x - font.get_string_size(mean_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y - 5), 
+	var mean_label = "Среднее: " + str(snapped(statistics.mean, 0.01))
+	canvas.draw_string(font, Vector2(mean_x - font.get_string_size(mean_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y - 25), 
 				mean_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, mean_line_color)
 	
 	# Draw vertical lines for standard deviations
@@ -350,13 +373,13 @@ func _draw_histogram():
 	if std_dev_minus_x >= start_x:
 		canvas.draw_dashed_line(Vector2(std_dev_minus_x, start_y), Vector2(std_dev_minus_x, end_y), std_dev_line_color, 1, 5)
 		var minus_label = "-1σ"
-		canvas.draw_string(font, Vector2(std_dev_minus_x - font.get_string_size(minus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y + 15), 
+		canvas.draw_string(font, Vector2(std_dev_minus_x - font.get_string_size(minus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y - 10), 
 					minus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, std_dev_line_color)
 	
 	if std_dev_plus_x <= end_x:
 		canvas.draw_dashed_line(Vector2(std_dev_plus_x, start_y), Vector2(std_dev_plus_x, end_y), std_dev_line_color, 1, 5)
 		var plus_label = "+1σ"
-		canvas.draw_string(font, Vector2(std_dev_plus_x - font.get_string_size(plus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y + 15), 
+		canvas.draw_string(font, Vector2(std_dev_plus_x - font.get_string_size(plus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x/2, end_y - 10), 
 					plus_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, std_dev_line_color)
 
 func _on_save_button_pressed():
@@ -421,6 +444,7 @@ func _take_screenshot(path):
 		# Show error dialog
 		var error_dialog = AcceptDialog.new()
 		error_dialog.dialog_text = "Error saving histogram to: " + path
+		error_dialog.add_theme_color_override("font_color", label_text_color)
 		add_child(error_dialog)
 		error_dialog.popup_centered()
 	else:
@@ -429,5 +453,6 @@ func _take_screenshot(path):
 		# Show a confirmation dialog
 		var confirm_dialog = AcceptDialog.new()
 		confirm_dialog.dialog_text = "Histogram saved successfully to:\n" + path
+		confirm_dialog.add_theme_color_override("font_color", label_text_color)
 		add_child(confirm_dialog)
 		confirm_dialog.popup_centered()
