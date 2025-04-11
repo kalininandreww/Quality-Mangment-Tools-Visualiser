@@ -68,6 +68,7 @@ layout_mode = 2
 [node name="StatsLabel" type="Label" parent="SplitContainer/ScrollContainer/UIContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+autowrap_mode = 3
 
 [node name="DiagramContainer" type="Control" parent="SplitContainer"]
 unique_name_in_owner = true

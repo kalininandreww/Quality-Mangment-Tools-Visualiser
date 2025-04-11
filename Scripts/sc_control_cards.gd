@@ -174,13 +174,16 @@ var z_results = {
 func _ready():
 	# Set up the UI
 	_setup_buttons()
-	_setup_save_button()
 	
 	# Initial setup for X-R chart (default)
 	_setup_xr_chart_ui()
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_control_chart)
+	
+	stats_label.add_theme_color_override("font_color", label_text_color)
+
+#SETUP BUTTONS
 
 func _setup_buttons():
 	# Set up chart type buttons
@@ -195,10 +198,11 @@ func _setup_buttons():
 	# Set up analyze button
 	analyze_button.text = "Анализировать данные"
 	analyze_button.connect("pressed", _on_analyze_button_pressed)
-
-func _setup_save_button():
+	
 	save_button.text = "Сохранить"
 	save_button.connect("pressed", _on_save_button_pressed)
+
+# MANAGE BUTTON PRESSES
 
 func _on_xr_button_pressed():
 	current_chart_type = "xr"
@@ -231,17 +235,52 @@ func _clear_input_area():
 	# Request redraw of diagram
 	diagram_container.queue_redraw()
 
+func _on_add_subgroup_pressed():
+	var subgroup_item = SUBGROUP_SCENE.instantiate()
+	input_area.add_child(subgroup_item)
+	
+	# Add before the Add button
+	input_area.move_child(subgroup_item, input_area.get_child_count() - 1)
+	
+	# Connect signals
+	subgroup_item.connect("deleted", _on_subgroup_deleted)
+	
+	# Add to our list
+	subgroup_items.append(subgroup_item)
+
+func _on_add_defect_pressed():
+	var defect_item = DEFECT_SCENE.instantiate()
+	input_area.add_child(defect_item)
+	
+	# Add before the Add button
+	input_area.move_child(defect_item, input_area.get_child_count() - 1)
+	
+	# Connect signals
+	defect_item.connect("deleted", _on_defect_deleted)
+	
+	# Add to our list
+	defect_items.append(defect_item)
+
+func _on_analyze_button_pressed():
+	match current_chart_type:
+		"xr":
+			_analyze_xr_data()
+		"u":
+			_analyze_u_data()
+		"z":
+			_analyze_z_data()
+
 # SETUP UI FUNCTIONS
 
 func _setup_xr_chart_ui():
 	# Create sample size input
 	var sample_size_container = HBoxContainer.new()
 	var sample_size_label = Label.new()
-	sample_size_label.text = "Sample Size (n):"
+	sample_size_label.text = "Размер выборок (n):"
 	sample_size_label.add_theme_color_override("font_color", label_text_color)
 	
 	sample_size_input = LineEdit.new()
-	sample_size_input.placeholder_text = "Enter sample size (2-25)"
+	sample_size_input.placeholder_text = "Введите размер выборок (2-25)"
 	sample_size_input.add_theme_color_override("font_color", input_text_color)
 	sample_size_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
@@ -252,13 +291,13 @@ func _setup_xr_chart_ui():
 	
 	# Create subgroups label
 	var subgroups_label = Label.new()
-	subgroups_label.text = "Subgroups Measurements:"
+	subgroups_label.text = "Данные выборок:"
 	subgroups_label.add_theme_color_override("font_color", label_text_color)
 	input_area.add_child(subgroups_label)
 	
 	# Add button for adding new subgroups
 	var add_button = Button.new()
-	add_button.text = "Add Subgroup"
+	add_button.text = "Добавить группу"
 	add_button.add_theme_color_override("font_color", label_text_color)
 	add_button.connect("pressed", _on_add_subgroup_pressed)
 	input_area.add_child(add_button)
@@ -337,20 +376,7 @@ func _setup_z_chart_ui():
 	z_data["target_input"] = target_input
 	z_data["std_dev_input"] = std_dev_input
 
-# ADD ITEM FUNCTIONS
-
-func _on_add_subgroup_pressed():
-	var subgroup_item = SUBGROUP_SCENE.instantiate()
-	input_area.add_child(subgroup_item)
-	
-	# Add before the Add button
-	input_area.move_child(subgroup_item, input_area.get_child_count() - 1)
-	
-	# Connect signals
-	subgroup_item.connect("deleted", _on_subgroup_deleted)
-	
-	# Add to our list
-	subgroup_items.append(subgroup_item)
+# MANAGE DELETION
 
 func _on_subgroup_deleted(subgroup_item):
 	# Remove from tree immediately
@@ -363,19 +389,6 @@ func _on_subgroup_deleted(subgroup_item):
 	
 	subgroup_item.queue_free()
 
-func _on_add_defect_pressed():
-	var defect_item = DEFECT_SCENE.instantiate()
-	input_area.add_child(defect_item)
-	
-	# Add before the Add button
-	input_area.move_child(defect_item, input_area.get_child_count() - 1)
-	
-	# Connect signals
-	defect_item.connect("deleted", _on_defect_deleted)
-	
-	# Add to our list
-	defect_items.append(defect_item)
-
 func _on_defect_deleted(defect_item):
 	# Remove from tree immediately
 	input_area.remove_child(defect_item)
@@ -387,21 +400,14 @@ func _on_defect_deleted(defect_item):
 	
 	defect_item.queue_free()
 
-func _on_analyze_button_pressed():
-	match current_chart_type:
-		"xr":
-			_analyze_xr_data()
-		"u":
-			_analyze_u_data()
-		"z":
-			_analyze_z_data()
+#ANALYSE DATA
 
 func _analyze_xr_data():
 	# Check if sample size is valid
 	var sample_size_text = sample_size_input.text.strip_edges()
-	#if not sample_size_text.is_valid_integer():
-		#_show_error("Please enter a valid sample size (integer between 2 and 25)")
-		#return
+	if not sample_size_text.is_valid_int():
+		_show_error("Please enter a valid sample size (integer between 2 and 25)")
+		return
 	
 	var sample_size = int(sample_size_text)
 	if sample_size < 2 or sample_size > 25:
@@ -674,24 +680,9 @@ func _analyze_z_data():
 	# Request redraw
 	diagram_container.queue_redraw()
 
-func _update_xr_statistics_label():
-	var text = "X-R Chart Statistics:\n"
-	text += "Number of subgroups: " + str(xr_results.subgroups.size()) + "\n"
-	text += "Sample size (n): " + str(xr_results.sample_size) + "\n\n"
-	
-	text += "X-bar chart:\n"
-	text += "Mean (CL): " + str(snapped(xr_results.x_mean, 0.001)) + "\n"
-	text += "Upper Control Limit (UCL): " + str(snapped(xr_results.x_ucl, 0.001)) + "\n"
-	text += "Lower Control Limit (LCL): " + str(snapped(xr_results.x_lcl, 0.001)) + "\n"
-	text += "Out of control points: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_x)) if xr_results.out_of_control_points_x.size() > 0 else "None") + "\n\n"
-	
-	text += "R chart:\n"
-	text += "Mean (CL): " + str(snapped(xr_results.r_mean, 0.001)) + "\n"
-	text += "Upper Control Limit (UCL): " + str(snapped(xr_results.r_ucl, 0.001)) + "\n"
-	text += "Lower Control Limit (LCL): " + str(snapped(xr_results.r_lcl, 0.001)) + "\n"
-	text += "Out of control points: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_r)) if xr_results.out_of_control_points_r.size() > 0 else "None")
+#DRAWING FUNCTIONS
 
-# Drawing function for control charts
+# Managing what to draw
 func _draw_control_chart():
 	# Clear previous drawings
 	var diagram_rect = diagram_container.get_rect()
@@ -721,7 +712,7 @@ func _draw_xr_chart(diagram_rect, chart_width, chart_height):
 	var x_chart_height = chart_height * 0.5 - 10
 	var r_chart_height = chart_height * 0.5 - 10
 	var x_chart_top = MARGIN_TOP
-	var r_chart_top = MARGIN_TOP + x_chart_height + 20
+	var r_chart_top = MARGIN_TOP + x_chart_height + 50
 	
 	# Draw X chart
 	_draw_grid(diagram_rect, chart_width, x_chart_height, x_chart_top, xr_results.x_values.size())
@@ -800,7 +791,7 @@ func _draw_xr_chart(diagram_rect, chart_width, chart_height):
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
 		Vector2(MARGIN_LEFT + chart_width / 2, x_chart_top - 20), 
-		"X-Bar Chart", 
+		"X-Карта", 
 		HORIZONTAL_ALIGNMENT_CENTER, 
 		-1, font_size, label_text_color)
 	
@@ -808,7 +799,7 @@ func _draw_xr_chart(diagram_rect, chart_width, chart_height):
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
 		Vector2(MARGIN_LEFT + chart_width / 2, r_chart_top - 20), 
-		"R Chart", 
+		"R-Карта", 
 		HORIZONTAL_ALIGNMENT_CENTER, 
 		-1, 
 		font_size, 
@@ -955,15 +946,6 @@ func _draw_z_chart(diagram_rect, chart_width, chart_height):
 	# Draw value labels
 	_draw_z_chart_value_labels(min_val, max_val, MARGIN_LEFT - 5, MARGIN_TOP, chart_height)
 
-# Helper function to convert data value to y position
-func _value_to_y(value, center_value, data_range, chart_height, chart_top):
-	if data_range == 0:
-		return chart_top + chart_height / 2  # Avoid division by zero
-	
-	# Map the value to y position
-	# Center value should be in the middle of the chart
-	var relative_pos = (center_value - value) / (data_range / 2)
-	return chart_top + chart_height / 2 + relative_pos * (chart_height / 2) * 0.8  # 0.8 factor to leave margin
 
 # Helper function to draw grid
 func _draw_grid(diagram_rect, chart_width, chart_height, chart_top, num_points):
@@ -1026,8 +1008,7 @@ func _draw_value_labels(mean_val, ucl_val, lcl_val, x_pos, chart_top, chart_heig
 	# Draw UCL value
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(ucl_val, mean_val, data_range, chart_height, chart_top) + 5), 
-		"UCL=" + str(snapped(ucl_val, 0.001)), 
+		Vector2(x_pos - 80, _value_to_y(ucl_val, mean_val, data_range, chart_height, chart_top) + 5), "UCL=" + str(snapped(ucl_val, 0.001)), 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
 		font_size, 
@@ -1037,7 +1018,7 @@ func _draw_value_labels(mean_val, ucl_val, lcl_val, x_pos, chart_top, chart_heig
 	# Draw CL value
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(mean_val, mean_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 80, _value_to_y(mean_val, mean_val, data_range, chart_height, chart_top) + 5), 
 		"CL=" + str(snapped(mean_val, 0.001)), 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1048,7 +1029,7 @@ func _draw_value_labels(mean_val, ucl_val, lcl_val, x_pos, chart_top, chart_heig
 	# Draw LCL value
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(lcl_val, mean_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 80, _value_to_y(lcl_val, mean_val, data_range, chart_height, chart_top) + 5), 
 		"LCL=" + str(snapped(lcl_val, 0.001)), 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1150,55 +1131,9 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 		lcl_color
 	)
 
-# Function to show error message
-func _show_error(message):
-	var dialog = AcceptDialog.new()
-	dialog.title = "Error"
-	dialog.dialog_text = message
-	dialog.connect("confirmed", dialog.queue_free)
-	add_child(dialog)
-	dialog.popup_centered()
 
-# Function to format point numbers for display
-func _get_point_numbers(points_array):
-	var result = []
-	for point in points_array:
-		result.append(str(point + 1))  # +1 for human-readable numbering
-	return result
+#UPDATE STATISTICS LABELS
 
-# Function to save chart as PNG
-func _on_save_button_pressed():
-	# Create a FileDialog if not already created
-	if not file_dialog:
-		file_dialog = FileDialog.new()
-		file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-		file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-		file_dialog.add_filter("*.png", "PNG Images")
-		file_dialog.title = "Save Chart as PNG"
-		add_child(file_dialog)
-		file_dialog.connect("file_selected", _on_file_selected_for_save)
-	
-	# Show the dialog
-	file_dialog.popup_centered(Vector2(700, 500))
-
-# Function to handle file selection for saving
-func _on_file_selected_for_save(path):
-	# Take a screenshot of the diagram container
-	var image = diagram_container.get_texture().get_image()
-
-	# Save the image
-	var error = image.save_png(path)
-	if error != OK:
-		_show_error("Failed to save image: " + str(error))
-	else:
-		var save_success = AcceptDialog.new()
-		save_success.title = "Success"
-		save_success.dialog_text = "Chart saved successfully."
-		save_success.connect("confirmed", save_success.queue_free)
-		add_child(save_success)
-		save_success.popup_centered()
-
-# Function to update U chart statistics label
 func _update_u_statistics_label():
 	var text = "U Chart Statistics:\n"
 	text += "Number of samples: " + str(u_results.defects.size()) + "\n\n"
@@ -1209,6 +1144,9 @@ func _update_u_statistics_label():
 	text += "Control limits: Variable (based on sample size)\n"
 	text += "Out of control points: " + (", ".join(_get_point_numbers(u_results.out_of_control_points)) if u_results.out_of_control_points.size() > 0 else "None")
 	
+	# Update the label
+	stats_label.text = text
+
 func _update_z_statistics_label():
 	var text = "Z Chart Statistics:\n"
 	text += "Number of values: " + str(z_data.values.size()) + "\n\n"
@@ -1229,3 +1167,128 @@ func _update_z_statistics_label():
 	
 	# Update the label
 	stats_label.text = text
+
+func _update_xr_statistics_label():
+	var text = "Статистика по X-R карте:\n"
+	text += "Количество подгрупп: " + str(xr_results.subgroups.size()) + "\n"
+	text += "Размер подгрупп(n): " + str(xr_results.sample_size) + "\n\n"
+	
+	text += "X Карта:\n"
+	text += "Среднее (CL): " + str(snapped(xr_results.x_mean, 0.001)) + "\n"
+	text += "Верхняя контрольная граница (UCL): " + str(snapped(xr_results.x_ucl, 0.001)) + "\n"
+	text += "Нижняя контрольная граница (LCL): " + str(snapped(xr_results.x_lcl, 0.001)) + "\n"
+	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_x)) if xr_results.out_of_control_points_x.size() > 0 else "None") + "\n\n"
+	
+	text += "R Карта:\n"
+	text += "Среднее (CL): " + str(snapped(xr_results.r_mean, 0.001)) + "\n"
+	text += "Верхняя контрольная граница (UCL): " + str(snapped(xr_results.r_ucl, 0.001)) + "\n"
+	text += "Нижняя контрольная граница (LCL): " + str(snapped(xr_results.r_lcl, 0.001)) + "\n"
+	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_r)) if xr_results.out_of_control_points_r.size() > 0 else "None")
+	
+	# Update the label
+	stats_label.text = text
+
+#HELPER FUNCS
+
+# Helper function to convert data value to y position
+func _value_to_y(value, center_value, data_range, chart_height, chart_top):
+	if data_range == 0:
+		return chart_top + chart_height / 2  # Avoid division by zero
+	
+	# Map the value to y position
+	# Center value should be in the middle of the chart
+	var relative_pos = (center_value - value) / (data_range / 2)
+	return chart_top + chart_height / 2 + relative_pos * (chart_height / 2) * 0.8  # 0.8 factor to leave margin
+
+# Function to show error message
+func _show_error(message):
+	var dialog = AcceptDialog.new()
+	dialog.title = "Error"
+	dialog.dialog_text = message
+	dialog.connect("confirmed", dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered()
+
+# Function to format point numbers for display
+func _get_point_numbers(points_array):
+	var result = []
+	for point in points_array:
+		result.append(str(point + 1))  # +1 for human-readable numbering
+	return result
+
+#HANDLE SAVING
+
+func _on_save_button_pressed():
+	# Create a FileDialog to choose where to save
+	file_dialog = FileDialog.new()
+	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	file_dialog.current_path = "histogram.png"
+	file_dialog.add_filter("*.png ; PNG Images")
+	
+	# Connect signal
+	file_dialog.connect("file_selected", _prepare_screenshot)
+	file_dialog.connect("canceled", _cancel_screenshot)
+	
+	# Add dialog to scene and show it
+	add_child(file_dialog)
+	file_dialog.popup_centered(Vector2(500, 400))
+
+func _prepare_screenshot(path):
+	# Store the path for saving
+	var save_path = path
+	
+	# Remove file dialog so it's not in the screenshot
+	if file_dialog:
+		file_dialog.queue_free()
+		file_dialog = null
+		
+	# Hide the save button temporarily
+	var was_visible = save_button.visible
+	save_button.visible = false
+	
+	# Wait for two frames to ensure UI updates
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	# Now take the screenshot and save
+	_take_screenshot(save_path)
+	
+	# Restore the save button visibility
+	save_button.visible = was_visible
+
+func _cancel_screenshot():
+	if file_dialog:
+		file_dialog.queue_free()
+		file_dialog = null
+
+func _take_screenshot(path):
+	# The actual screenshot code here
+	var capture_img = get_viewport().get_texture().get_image()
+	
+	# Get the global rect of our diagram container
+	var global_rect = diagram_container.get_global_rect()
+	
+	# Crop to just the diagram area
+	capture_img = capture_img.get_region(global_rect)
+	
+	# Save the image
+	var error = capture_img.save_png(path)
+	if error != OK:
+		print("Error saving image: ", error)
+		
+		# Show error dialog
+		var error_dialog = AcceptDialog.new()
+		error_dialog.dialog_text = "Error saving histogram to: " + path
+		error_dialog.add_theme_color_override("font_color", label_text_color)
+		add_child(error_dialog)
+		error_dialog.popup_centered()
+	else:
+		print("Image saved successfully to: ", path)
+		
+		# Show a confirmation dialog
+		var confirm_dialog = AcceptDialog.new()
+		confirm_dialog.dialog_text = "Histogram saved successfully to:\n" + path
+		confirm_dialog.add_theme_color_override("font_color", label_text_color)
+		add_child(confirm_dialog)
+		confirm_dialog.popup_centered()

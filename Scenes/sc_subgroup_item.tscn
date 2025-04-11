@@ -9,6 +9,7 @@ script = ExtResource("1_gto24")
 
 [node name="MeasurementsInput" type="LineEdit" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="DeleteButton" type="Button" parent="."]

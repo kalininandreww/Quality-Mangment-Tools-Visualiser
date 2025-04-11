@@ -16,3 +16,4 @@ res://Scenes/sc_subgroup_item.tscn
 res://Scenes/sc_defect_item.tscn
 res://Scripts/sc_defect_item.gd
 res://Scenes/Tabs/sc_control_charts.tscn
+res://Scripts/xr_funcs.gd
