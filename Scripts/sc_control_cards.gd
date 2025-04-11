@@ -308,13 +308,13 @@ func _setup_xr_chart_ui():
 func _setup_u_chart_ui():
 	# Create defects label
 	var defects_label = Label.new()
-	defects_label.text = "Defects Data:"
+	defects_label.text = "Данные дефектов:"
 	defects_label.add_theme_color_override("font_color", label_text_color)
 	input_area.add_child(defects_label)
 	
 	# Add button for adding new defect entries
 	var add_button = Button.new()
-	add_button.text = "Add Sample"
+	add_button.text = "Добавить выборку"
 	add_button.add_theme_color_override("font_color", label_text_color)
 	add_button.connect("pressed", _on_add_defect_pressed)
 	input_area.add_child(add_button)
@@ -557,7 +557,7 @@ func _analyze_u_data():
 		var sample_size_text = defect_item.get_sample_size().strip_edges()
 		
 		# Check if entries are valid numbers
-		if not defects_text.is_valid_integer() or not sample_size_text.is_valid_integer():
+		if not defects_text.is_valid_int() or not sample_size_text.is_valid_int():
 			entries_with_errors.append(i + 1)  # +1 for human-readable numbering
 			continue
 		
@@ -575,7 +575,7 @@ func _analyze_u_data():
 		})
 	
 	if entries_with_errors.size() > 0:
-		var error_msg = "The following entries have invalid data: "
+		var error_msg = "В следующих выборках некоректные данные: "
 		error_msg += ", ".join(entries_with_errors.map(func(num): return str(num)))
 		_show_error(error_msg)
 		return
@@ -945,7 +945,6 @@ func _draw_z_chart(diagram_rect, chart_width, chart_height):
 	
 	# Draw value labels
 	_draw_z_chart_value_labels(min_val, max_val, MARGIN_LEFT - 5, MARGIN_TOP, chart_height)
-
 
 # Helper function to draw grid
 func _draw_grid(diagram_rect, chart_width, chart_height, chart_top, num_points):

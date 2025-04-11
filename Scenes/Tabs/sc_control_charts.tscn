@@ -67,6 +67,7 @@ layout_mode = 2
 
 [node name="StatsLabel" type="Label" parent="SplitContainer/ScrollContainer/UIContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 autowrap_mode = 3
 

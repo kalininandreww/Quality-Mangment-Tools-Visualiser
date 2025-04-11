@@ -7,13 +7,17 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_0p5gq")
 
-[node name="DefectsInput" type="LineEdit" parent="."]
+[node name="DefectsInput" type="TextEdit" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+placeholder_text = "Введите количество дефектов"
 
-[node name="SampleSizeInput" type="LineEdit" parent="."]
+[node name="SampleSizeInput" type="TextEdit" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+placeholder_text = "Введите размер выборки"
 
 [node name="DeleteButton" type="Button" parent="."]
 unique_name_in_owner = true

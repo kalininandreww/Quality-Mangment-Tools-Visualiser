@@ -1,3 +1,4 @@
+TextEdit
 Node
 Label
 Button
@@ -9,7 +10,5 @@ Control
 ScrollContainer
 SplitContainer
 CheckBox
-TextEdit
 HSlider
 Container
-MarginContainer
