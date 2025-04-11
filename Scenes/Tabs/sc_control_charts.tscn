@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=3 uid="uid://5by4p027o41b"]
+
+[ext_resource type="Script" path="res://Scripts/sc_control_cards.gd" id="1_b6fla"]
+[ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="2_34v6q"]
+
+[node name="sc_Control_cards" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b6fla")
+axis_color = Color(0, 0, 0, 1)
+label_text_color = Color(0, 0, 0, 1)
+input_text_color = Color(0, 0, 0, 1)
+
+[node name="Background" parent="." instance=ExtResource("2_34v6q")]
+
+[node name="SplitContainer" type="SplitContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 250
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UIContainer" type="VBoxContainer" parent="SplitContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="SplitContainer/ScrollContainer/UIContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="XRButton" type="Button" parent="SplitContainer/ScrollContainer/UIContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "X̄-R Карта"
+
+[node name="UButton" type="Button" parent="SplitContainer/ScrollContainer/UIContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Z карта"
+
+[node name="ZButton" type="Button" parent="SplitContainer/ScrollContainer/UIContainer/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = " U карта"
+
+[node name="InputContainer" type="VBoxContainer" parent="SplitContainer/ScrollContainer/UIContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AnalyseButton" type="Button" parent="SplitContainer/ScrollContainer/UIContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="SplitContainer/ScrollContainer/UIContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DiagramContainer" type="Control" parent="SplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="SplitContainer/DiagramContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Сохранить"

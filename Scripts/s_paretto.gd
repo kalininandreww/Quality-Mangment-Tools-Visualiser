@@ -23,7 +23,7 @@ const MARGIN_LEFT = 60
 const MARGIN_RIGHT = 60
 const MARGIN_TOP = 40
 const MARGIN_BOTTOM = 60
-const BAR_GAP = 10
+const BAR_GAP = 0
 const MAX_NAME_WIDTH = 150
 
 # Data storage

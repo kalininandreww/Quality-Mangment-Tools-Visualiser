@@ -1,8 +1,9 @@
-res://Scenes/Tabs/SC_Ishikava.tscn::106e9ab61bc6a2c13680624dc75f12d9::1744197536::res://.godot/exported/133200997/export-f0cad4e448ba022ce1ca08fbb1d758fb-SC_Ishikava.scn
-res://Scenes/Tabs/SC_main_screen.tscn::ec3c3d684c1c13cba8d8bd82abc1172d::1744207196::res://.godot/exported/133200997/export-ee6111b7300c7cb9a9ce3d9c40fbddd1-SC_main_screen.scn
-res://Scenes/Tabs/SC_Paretto.tscn::cf0e705a8c68da2536b4ab07dd782c4f::1744197562::res://.godot/exported/133200997/export-dceec4b62749125472fceee3cb7f3a66-SC_Paretto.scn
+res://Scenes/Tabs/SC_Ishikava.tscn::ad7d4c6725d64b6ebfe597614747fae2::1744372605::res://.godot/exported/133200997/export-f0cad4e448ba022ce1ca08fbb1d758fb-SC_Ishikava.scn
+res://Scenes/Tabs/SC_main_screen.tscn::792e7661446240dca14b8f88005421cd::1744372605::res://.godot/exported/133200997/export-ee6111b7300c7cb9a9ce3d9c40fbddd1-SC_main_screen.scn
+res://Scenes/Tabs/SC_Paretto.tscn::cf0e705a8c68da2536b4ab07dd782c4f::1744372605::res://.godot/exported/133200997/export-dceec4b62749125472fceee3cb7f3a66-SC_Paretto.scn
 res://Scenes/sc_parameter_item.tscn::fb4987f6485e585ef527cf377b878df2::1744197218::res://.godot/exported/133200997/export-9ff93a7d04c84c84376bab85fefac8c5-sc_parameter_item.scn
-res://Scenes/SC_Background.tscn::a7ee9b3096700b2085ef35894ee6d971::1744206893::res://.godot/exported/133200997/export-db610240cf10698684c39bd2494c7f0b-SC_Background.scn
-res://Styles/TO_ButtonHoverMM.tres::2b184bb320dbaa6e799a90a3dc685a09::1744206893::res://.godot/exported/133200997/export-131b51211141e0e834dc7eb75f4d0de4-TO_ButtonHoverMM.res
-res://Styles/TO_ButtonNormalMM.tres::53f85db3605b18857915e3db8723bbd9::1744206893::res://.godot/exported/133200997/export-f63d4897121caa54d044f283f200209a-TO_ButtonNormalMM.res
-res://Scenes/Tabs/sc_histogram.tscn::f730ba9421585b940fb0358e08abb6c7::1744206893::res://.godot/exported/133200997/export-5a0ba44edd9d9d2a13dce15bd0220fe3-sc_histogram.scn
+res://Scenes/SC_Background.tscn::a7ee9b3096700b2085ef35894ee6d971::1744372605::res://.godot/exported/133200997/export-db610240cf10698684c39bd2494c7f0b-SC_Background.scn
+res://Styles/TO_ButtonHoverMM.tres::2b184bb320dbaa6e799a90a3dc685a09::1744361308::res://.godot/exported/133200997/export-131b51211141e0e834dc7eb75f4d0de4-TO_ButtonHoverMM.res
+res://Styles/TO_ButtonNormalMM.tres::53f85db3605b18857915e3db8723bbd9::1744361308::res://.godot/exported/133200997/export-f63d4897121caa54d044f283f200209a-TO_ButtonNormalMM.res
+res://Scenes/Tabs/sc_histogram.tscn::f730ba9421585b940fb0358e08abb6c7::1744372605::res://.godot/exported/133200997/export-5a0ba44edd9d9d2a13dce15bd0220fe3-sc_histogram.scn
+res://Scenes/Tabs/sc_scatter.tscn::a6574333fd077a642621048dc8d1fcaf::1744372605::res://.godot/exported/133200997/export-0ffca9bbd3947b84b82308dd6c825526-sc_scatter.scn

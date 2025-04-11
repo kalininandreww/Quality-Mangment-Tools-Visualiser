@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cftdplmvyjunb"]
+
+[ext_resource type="Script" path="res://Scripts/sc_subgroup_item.gd" id="1_gto24"]
+
+[node name="sc_subgroup_item" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_gto24")
+
+[node name="MeasurementsInput" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = " X "
