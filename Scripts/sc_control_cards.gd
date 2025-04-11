@@ -29,7 +29,7 @@ extends Control
 
 # Scene references
 const SUBGROUP_SCENE = preload("res://Scenes/sc_subgroup_item.tscn")
-const DEFECT_SCENE = preload("res://Scenes/sc_defect_item.tscn")
+
 
 # Constants
 const MARGIN_LEFT = 80
@@ -154,15 +154,6 @@ var xr_results = {
 	"warning_points_r": []
 }
 
-var u_results = {
-	"defects": [],
-	"u_values": [],
-	"u_mean": 0.0,
-	"ucl_values": [],
-	"lcl_values": [],
-	"out_of_control_points": []
-}
-
 var z_results = {
 	"z_values": [],
 	"ucl": 3.0,
@@ -188,11 +179,9 @@ func _ready():
 func _setup_buttons():
 	# Set up chart type buttons
 	xr_button.text = "X-R Карта"
-	u_button.text = "U Карта"
 	z_button.text = "Z Карта"
 	
 	xr_button.connect("pressed", _on_xr_button_pressed)
-	u_button.connect("pressed", _on_u_button_pressed)
 	z_button.connect("pressed", _on_z_button_pressed)
 	
 	# Set up analyze button
@@ -208,11 +197,6 @@ func _on_xr_button_pressed():
 	current_chart_type = "xr"
 	_clear_input_area()
 	_setup_xr_chart_ui()
-
-func _on_u_button_pressed():
-	current_chart_type = "u"
-	_clear_input_area()
-	_setup_u_chart_ui()
 
 func _on_z_button_pressed():
 	current_chart_type = "z"
@@ -248,25 +232,10 @@ func _on_add_subgroup_pressed():
 	# Add to our list
 	subgroup_items.append(subgroup_item)
 
-func _on_add_defect_pressed():
-	var defect_item = DEFECT_SCENE.instantiate()
-	input_area.add_child(defect_item)
-	
-	# Add before the Add button
-	input_area.move_child(defect_item, input_area.get_child_count() - 1)
-	
-	# Connect signals
-	defect_item.connect("deleted", _on_defect_deleted)
-	
-	# Add to our list
-	defect_items.append(defect_item)
-
 func _on_analyze_button_pressed():
 	match current_chart_type:
 		"xr":
 			_analyze_xr_data()
-		"u":
-			_analyze_u_data()
 		"z":
 			_analyze_z_data()
 
@@ -305,35 +274,18 @@ func _setup_xr_chart_ui():
 	# Add initial subgroup
 	_on_add_subgroup_pressed()
 
-func _setup_u_chart_ui():
-	# Create defects label
-	var defects_label = Label.new()
-	defects_label.text = "Данные дефектов:"
-	defects_label.add_theme_color_override("font_color", label_text_color)
-	input_area.add_child(defects_label)
-	
-	# Add button for adding new defect entries
-	var add_button = Button.new()
-	add_button.text = "Добавить выборку"
-	add_button.add_theme_color_override("font_color", label_text_color)
-	add_button.connect("pressed", _on_add_defect_pressed)
-	input_area.add_child(add_button)
-	
-	# Add initial defect entry
-	_on_add_defect_pressed()
-
 func _setup_z_chart_ui():
 	# Create container for values input
 	var values_container = VBoxContainer.new()
 	var values_label = Label.new()
-	values_label.text = "Individual Values or Subgroup Means (Xᵢ):"
+	values_label.text = "Средние по подгруппам (Xᵢ):"
 	values_label.add_theme_color_override("font_color", label_text_color)
 	
 	var values_input = TextEdit.new()
-	values_input.placeholder_text = "Enter values separated by commas (e.g. 10.5, 11.2, 10.8, ...)"
+	values_input.placeholder_text = "Введите значения разделенные запятой (10.5, 11.2, 10.8, ...)"
 	values_input.add_theme_color_override("font_color", input_text_color)
 	values_input.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	values_input.custom_minimum_size = Vector2(0, 100)
+	values_input.custom_minimum_size = Vector2(150, 35)
 	
 	values_container.add_child(values_label)
 	values_container.add_child(values_input)
@@ -341,11 +293,11 @@ func _setup_z_chart_ui():
 	# Create container for target mean input
 	var target_container = HBoxContainer.new()
 	var target_label = Label.new()
-	target_label.text = "Target Mean (μ₀):"
+	target_label.text = "Целевое среднее (μ₀):"
 	target_label.add_theme_color_override("font_color", label_text_color)
 	
 	var target_input = LineEdit.new()
-	target_input.placeholder_text = "Enter target mean value"
+	target_input.placeholder_text = "Введите целевое среднее"
 	target_input.add_theme_color_override("font_color", input_text_color)
 	target_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
@@ -355,11 +307,11 @@ func _setup_z_chart_ui():
 	# Create container for reference std dev input
 	var std_dev_container = HBoxContainer.new()
 	var std_dev_label = Label.new()
-	std_dev_label.text = "Reference Std Dev (σ₀):"
+	std_dev_label.text = "Станд. откл.(σ₀):"
 	std_dev_label.add_theme_color_override("font_color", label_text_color)
 	
 	var std_dev_input = LineEdit.new()
-	std_dev_input.placeholder_text = "Enter reference standard deviation"
+	std_dev_input.placeholder_text = "Введите стандартное отклонение"
 	std_dev_input.add_theme_color_override("font_color", input_text_color)
 	std_dev_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
@@ -388,17 +340,6 @@ func _on_subgroup_deleted(subgroup_item):
 		subgroup_items.remove_at(index)
 	
 	subgroup_item.queue_free()
-
-func _on_defect_deleted(defect_item):
-	# Remove from tree immediately
-	input_area.remove_child(defect_item)
-	
-	# Remove from our list
-	var index = defect_items.find(defect_item)
-	if index != -1:
-		defect_items.remove_at(index)
-	
-	defect_item.queue_free()
 
 #ANALYSE DATA
 
@@ -535,87 +476,6 @@ func _analyze_xr_data():
 	# Request redraw
 	diagram_container.queue_redraw()
 
-func _analyze_u_data():
-	# Check if we have at least 1 defect entry
-	if defect_items.size() < 1:
-		_show_error("Please enter at least 1 sample")
-		return
-	
-	# Reset results
-	u_results.defects.clear()
-	u_results.u_values.clear()
-	u_results.ucl_values.clear()
-	u_results.lcl_values.clear()
-	u_results.out_of_control_points.clear()
-	
-	# Process each defect entry
-	var entries_with_errors = []
-	
-	for i in range(defect_items.size()):
-		var defect_item = defect_items[i]
-		var defects_text = defect_item.get_defects().strip_edges()
-		var sample_size_text = defect_item.get_sample_size().strip_edges()
-		
-		# Check if entries are valid numbers
-		if not defects_text.is_valid_int() or not sample_size_text.is_valid_int():
-			entries_with_errors.append(i + 1)  # +1 for human-readable numbering
-			continue
-		
-		var defects = int(defects_text)
-		var sample_size = int(sample_size_text)
-		
-		if defects < 0 or sample_size <= 0:
-			entries_with_errors.append(i + 1)
-			continue
-		
-		# Store valid data
-		u_results.defects.append({
-			"defects": defects,
-			"sample_size": sample_size
-		})
-	
-	if entries_with_errors.size() > 0:
-		var error_msg = "В следующих выборках некоректные данные: "
-		error_msg += ", ".join(entries_with_errors.map(func(num): return str(num)))
-		_show_error(error_msg)
-		return
-	
-	# Calculate u values (defects per unit)
-	for item in u_results.defects:
-		var u_value = float(item.defects) / item.sample_size
-		u_results.u_values.append(u_value)
-	
-	# Calculate u-bar (mean defects per unit)
-	var total_defects = 0
-	var total_sample_size = 0
-	for item in u_results.defects:
-		total_defects += item.defects
-		total_sample_size += item.sample_size
-	
-	u_results.u_mean = float(total_defects) / total_sample_size
-	
-	# Calculate variable control limits (depend on sample size)
-	for i in range(u_results.defects.size()):
-		var sample_size = u_results.defects[i].sample_size
-		var ucl = u_results.u_mean + 3 * sqrt(u_results.u_mean / sample_size)
-		var lcl = u_results.u_mean - 3 * sqrt(u_results.u_mean / sample_size)
-		
-		# LCL can't be negative for count data
-		lcl = max(0.0, lcl)
-		
-		u_results.ucl_values.append(ucl)
-		u_results.lcl_values.append(lcl)
-		
-		# Check for out of control points
-		if u_results.u_values[i] > ucl or u_results.u_values[i] < lcl:
-			u_results.out_of_control_points.append(i)
-	
-	# Update statistics label
-	_update_u_statistics_label()
-	
-	# Request redraw
-	diagram_container.queue_redraw()
-
 func _analyze_z_data():
 	# Get input values
 	var values_text = z_data.values_input.text.strip_edges()
@@ -698,8 +558,6 @@ func _draw_control_chart():
 	match current_chart_type:
 		"xr":
 			_draw_xr_chart(diagram_rect, chart_width, chart_height)
-		"u":
-			_draw_u_chart(diagram_rect, chart_width, chart_height)
 		"z":
 			_draw_z_chart(diagram_rect, chart_width, chart_height)
 
@@ -810,87 +668,6 @@ func _draw_xr_chart(diagram_rect, chart_width, chart_height):
 	_draw_value_labels(xr_results.x_mean, xr_results.x_ucl, xr_results.x_lcl, MARGIN_LEFT - 5, x_chart_top, x_chart_height)
 	_draw_value_labels(xr_results.r_mean, xr_results.r_ucl, xr_results.r_lcl, MARGIN_LEFT - 5, r_chart_top, r_chart_height)
 
-# Draw U control chart
-func _draw_u_chart(diagram_rect, chart_width, chart_height):
-	if u_results.u_values.size() == 0:
-		return  # No data to draw
-	
-	# Draw grid
-	_draw_grid(diagram_rect, chart_width, chart_height, MARGIN_TOP, u_results.u_values.size())
-	
-	# Find min and max for scaling
-	var min_val = u_results.u_mean
-	var max_val = u_results.u_mean
-	
-	for ucl in u_results.ucl_values:
-		max_val = max(max_val, ucl)
-	
-	for lcl in u_results.lcl_values:
-		min_val = min(min_val, lcl)
-	
-	for u in u_results.u_values:
-		min_val = min(min_val, u)
-		max_val = max(max_val, u)
-	
-	var data_range = max_val - min_val
-	if data_range <= 0:
-		data_range = 1.0  # Avoid division by zero
-	
-	# Draw mean line (CL)
-	_draw_horizontal_line(MARGIN_LEFT, chart_width, _value_to_y(u_results.u_mean, min_val + data_range / 2, data_range, chart_height, MARGIN_TOP), cl_color, 2)
-	
-	# Draw variable control limits
-	for i in range(u_results.ucl_values.size()):
-		var x_pos = MARGIN_LEFT + (i + 0.5) * chart_width / u_results.u_values.size()
-		var width = chart_width / u_results.u_values.size()
-		
-		# UCL
-		var ucl_y = _value_to_y(u_results.ucl_values[i], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-		if i < u_results.ucl_values.size() - 1:
-			var next_x = MARGIN_LEFT + (i + 1.5) * chart_width / u_results.u_values.size()
-			var next_ucl_y = _value_to_y(u_results.ucl_values[i+1], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-			diagram_container.draw_line(Vector2(x_pos, ucl_y), Vector2(next_x, next_ucl_y), ucl_color, LINE_WIDTH)
-		
-		# LCL
-		var lcl_y = _value_to_y(u_results.lcl_values[i], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-		if i < u_results.lcl_values.size() - 1:
-			var next_x = MARGIN_LEFT + (i + 1.5) * chart_width / u_results.u_values.size()
-			var next_lcl_y = _value_to_y(u_results.lcl_values[i+1], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-			diagram_container.draw_line(Vector2(x_pos, lcl_y), Vector2(next_x, next_lcl_y), lcl_color, LINE_WIDTH)
-	
-	# Draw U values
-	for i in range(u_results.u_values.size()):
-		var x_pos = MARGIN_LEFT + (i + 0.5) * chart_width / u_results.u_values.size()
-		var y_pos = _value_to_y(u_results.u_values[i], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-		
-		# Connect points with lines
-		if i > 0:
-			var prev_x = MARGIN_LEFT + (i - 0.5) * chart_width / u_results.u_values.size()
-			var prev_y = _value_to_y(u_results.u_values[i-1], min_val + data_range / 2, data_range, chart_height, MARGIN_TOP)
-			diagram_container.draw_line(Vector2(prev_x, prev_y), Vector2(x_pos, y_pos), x_line_color, LINE_WIDTH)
-		
-		# Draw point
-		var point_color = x_line_color
-		if u_results.out_of_control_points.has(i):
-			point_color = out_of_control_color
-			
-		diagram_container.draw_circle(Vector2(x_pos, y_pos), POINT_RADIUS, point_color)
-	
-	# Draw chart title
-	var font_size = 14
-	diagram_container.draw_string(
-		ThemeDB.fallback_font, 
-		Vector2(MARGIN_LEFT + chart_width / 2, MARGIN_TOP - 20), 
-		"U Chart (Defects per Unit)", 
-		HORIZONTAL_ALIGNMENT_CENTER, 
-		-1, 
-		font_size, 
-		label_text_color
-	)
-	
-	# Draw value labels
-	_draw_u_chart_value_labels(min_val, max_val, data_range, MARGIN_LEFT - 5, MARGIN_TOP, chart_height)
-
 # Draw Z control chart
 func _draw_z_chart(diagram_rect, chart_width, chart_height):
 	if z_results.z_values.size() == 0:
@@ -936,7 +713,7 @@ func _draw_z_chart(diagram_rect, chart_width, chart_height):
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
 		Vector2(MARGIN_LEFT + chart_width / 2, MARGIN_TOP - 20), 
-		"Z Chart (Standardized Values)", 
+		"Z-Карта", 
 		HORIZONTAL_ALIGNMENT_CENTER, 
 		-1, 
 		font_size, 
@@ -1036,43 +813,6 @@ func _draw_value_labels(mean_val, ucl_val, lcl_val, x_pos, chart_top, chart_heig
 		lcl_color
 	)
 
-# Helper function to draw value labels for U chart
-func _draw_u_chart_value_labels(min_val, max_val, data_range, x_pos, chart_top, chart_height):
-	var font_size = 12
-	var mid_val = min_val + data_range / 2
-	
-	# Draw CL value
-	diagram_container.draw_string(
-		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(u_results.u_mean, mid_val, data_range, chart_height, chart_top) + 5), 
-		"CL=" + str(snapped(u_results.u_mean, 0.001)), 
-		HORIZONTAL_ALIGNMENT_RIGHT, 
-		-1, 
-		font_size, 
-		cl_color
-	)
-	
-	# Draw min and max values
-	diagram_container.draw_string(
-		ThemeDB.fallback_font, 
-		Vector2(x_pos, chart_top + 5), 
-		str(snapped(max_val, 0.001)), 
-		HORIZONTAL_ALIGNMENT_RIGHT, 
-		-1, 
-		font_size, 
-		label_text_color
-	)
-	
-	diagram_container.draw_string(
-		ThemeDB.fallback_font, 
-		Vector2(x_pos, chart_top + chart_height - 5), 
-		str(snapped(min_val, 0.001)), 
-		HORIZONTAL_ALIGNMENT_RIGHT, 
-		-1, 
-		font_size, 
-		label_text_color
-	)
-
 # Helper function to draw value labels for Z chart
 func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height):
 	var font_size = 12
@@ -1082,7 +822,7 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 	# Draw sigma lines labels
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(3, mid_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 20, _value_to_y(3, mid_val, data_range, chart_height, chart_top) + 5), 
 		"+3σ", 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1092,7 +832,7 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 	
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(2, mid_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 20, _value_to_y(2, mid_val, data_range, chart_height, chart_top) + 5), 
 		"+2σ", 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1102,7 +842,7 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 	
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(0, mid_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 20, _value_to_y(0, mid_val, data_range, chart_height, chart_top) + 5), 
 		"0", 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1112,7 +852,7 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 	
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(-2, mid_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 20, _value_to_y(-2, mid_val, data_range, chart_height, chart_top) + 5), 
 		"-2σ", 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1122,7 +862,7 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 	
 	diagram_container.draw_string(
 		ThemeDB.fallback_font, 
-		Vector2(x_pos, _value_to_y(-3, mid_val, data_range, chart_height, chart_top) + 5), 
+		Vector2(x_pos - 20, _value_to_y(-3, mid_val, data_range, chart_height, chart_top) + 5), 
 		"-3σ", 
 		HORIZONTAL_ALIGNMENT_RIGHT, 
 		-1, 
@@ -1130,39 +870,25 @@ func _draw_z_chart_value_labels(min_val, max_val, x_pos, chart_top, chart_height
 		lcl_color
 	)
 
-
 #UPDATE STATISTICS LABELS
 
-func _update_u_statistics_label():
-	var text = "U Chart Statistics:\n"
-	text += "Number of samples: " + str(u_results.defects.size()) + "\n\n"
-
-	text += "Mean defects per unit (u̅): " + str(snapped(u_results.u_mean, 0.001)) + "\n"
-	text += "Total defects: " + str(u_results.defects.reduce(func(acc, item): return acc + item.defects, 0)) + "\n"
-	text += "Total sample size: " + str(u_results.defects.reduce(func(acc, item): return acc + item.sample_size, 0)) + "\n"
-	text += "Control limits: Variable (based on sample size)\n"
-	text += "Out of control points: " + (", ".join(_get_point_numbers(u_results.out_of_control_points)) if u_results.out_of_control_points.size() > 0 else "None")
-	
-	# Update the label
-	stats_label.text = text
-
 func _update_z_statistics_label():
-	var text = "Z Chart Statistics:\n"
-	text += "Number of values: " + str(z_data.values.size()) + "\n\n"
+	var text = "Данные по Z-карте:\n"
+	text += "Количество значений: " + str(z_data.values.size()) + "\n\n"
 	
-	text += "Target mean (μ₀): " + str(snapped(z_data.target_mean, 0.001)) + "\n"
-	text += "Reference standard deviation (σ₀): " + str(snapped(z_data.std_dev, 0.001)) + "\n"
-	text += "Upper Control Limit: +3σ\n"
-	text += "Lower Control Limit: -3σ\n"
+	text += "Среднее (μ₀): " + str(snapped(z_data.target_mean, 0.001)) + "\n"
+	text += "Квадратичное отклонение (σ₀): " + str(snapped(z_data.std_dev, 0.001)) + "\n"
+	text += "Верхняя контрольная граница: +3σ\n"
+	text += "Нижняя контрольная граница: -3σ\n"
 	
 	# Calculate some additional statistics
 	var min_z = z_results.z_values.min() if z_results.z_values.size() > 0 else 0
 	var max_z = z_results.z_values.max() if z_results.z_values.size() > 0 else 0
 	
-	text += "Minimum Z value: " + str(snapped(min_z, 0.001)) + "\n"
-	text += "Maximum Z value: " + str(snapped(max_z, 0.001)) + "\n"
-	text += "Out of control points: " + (", ".join(_get_point_numbers(z_results.out_of_control_points)) if z_results.out_of_control_points.size() > 0 else "None") + "\n"
-	text += "Warning points (between 2σ and 3σ): " + (", ".join(_get_point_numbers(z_results.warning_points)) if z_results.warning_points.size() > 0 else "None")
+	text += "Минимальное Z: " + str(snapped(min_z, 0.001)) + "\n"
+	text += "Максимальное Z: " + str(snapped(max_z, 0.001)) + "\n"
+	text += "Точки вне границ: " + (", ".join(_get_point_numbers(z_results.out_of_control_points)) if z_results.out_of_control_points.size() > 0 else "Отсутствуют") + "\n"
+	text += "Опасные точки (между 2σ и 3σ): " + (", ".join(_get_point_numbers(z_results.warning_points)) if z_results.warning_points.size() > 0 else "Отсутствуют")
 	
 	# Update the label
 	stats_label.text = text
@@ -1176,13 +902,13 @@ func _update_xr_statistics_label():
 	text += "Среднее (CL): " + str(snapped(xr_results.x_mean, 0.001)) + "\n"
 	text += "Верхняя контрольная граница (UCL): " + str(snapped(xr_results.x_ucl, 0.001)) + "\n"
 	text += "Нижняя контрольная граница (LCL): " + str(snapped(xr_results.x_lcl, 0.001)) + "\n"
-	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_x)) if xr_results.out_of_control_points_x.size() > 0 else "None") + "\n\n"
+	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_x)) if xr_results.out_of_control_points_x.size() > 0 else "Отсутствуют") + "\n\n"
 	
 	text += "R Карта:\n"
 	text += "Среднее (CL): " + str(snapped(xr_results.r_mean, 0.001)) + "\n"
 	text += "Верхняя контрольная граница (UCL): " + str(snapped(xr_results.r_ucl, 0.001)) + "\n"
 	text += "Нижняя контрольная граница (LCL): " + str(snapped(xr_results.r_lcl, 0.001)) + "\n"
-	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_r)) if xr_results.out_of_control_points_r.size() > 0 else "None")
+	text += "Точки за пределами: " + (", ".join(_get_point_numbers(xr_results.out_of_control_points_r)) if xr_results.out_of_control_points_r.size() > 0 else "Отсутствуют")
 	
 	# Update the label
 	stats_label.text = text

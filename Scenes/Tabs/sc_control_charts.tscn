@@ -47,6 +47,7 @@ text = "X̄-R Карта"
 
 [node name="UButton" type="Button" parent="SplitContainer/ScrollContainer/UIContainer/ButtonsContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 text = " Z карта"
