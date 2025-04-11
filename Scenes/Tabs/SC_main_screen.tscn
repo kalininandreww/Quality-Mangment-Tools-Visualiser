@@ -204,6 +204,7 @@ theme_override_styles/normal_mirrored = ExtResource("5_eusem")
 theme_override_styles/normal = ExtResource("5_eusem")
 text = "Гистограмма"
 
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Scatter_Plot" to="." method="_on_b_scatter_plot_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Ishikawa" to="." method="_on_b_ishikawa_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Paretto" to="." method="_on_b_paretto_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/B_Histogram" to="." method="_on_b_histogram_pressed"]

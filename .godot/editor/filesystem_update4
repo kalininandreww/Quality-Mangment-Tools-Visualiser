@@ -1,3 +1,10 @@
-res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/Tabs/SC_Ishikava.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
+res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/Tabs/sc_histogram.tscn
+res://Scenes/SC_Background.tscn
+res://Scripts/s_v_box_elements.gd
+res://Scripts/sc_scatter.gd
+res://Scenes/Tabs/sc_scatter.tscn
+res://Scripts/S_main_screen.gd

@@ -115,7 +115,7 @@ extends VBoxContainer
 @export var length_step_modifier:float = 0.23
 
 # Added color export variables
-@export var background_color:Color = Color("#FEFAE0")
+#@export var background_color:Color = Color("#FEFAE0")
 @export var spine_color:Color = Color.BLACK
 @export var branch_color:Color = Color.BLACK
 @export var subbranch_color:Color = Color.BLACK
@@ -431,7 +431,7 @@ func _draw_diagram():
 	var font_size = get_theme_default_font_size()
 	
 	var canvas = %DiagramCanvas
-	canvas.draw_rect(Rect2(Vector2.ZERO, canvas.size), background_color, true)  # Clear the canvas
+	#canvas.draw_rect(Rect2(Vector2.ZERO, canvas.size), background_color, true)  # Clear the canvas
 	
 	# Draw the spine
 	var spine_start = Vector2(50, canvas.size.y / 2)
