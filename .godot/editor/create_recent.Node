@@ -1,3 +1,4 @@
+HSplitContainer
 ColorRect
 CanvasModulate
 MarginContainer
@@ -12,4 +13,3 @@ LineEdit
 ItemList
 ScrollContainer
 SplitContainer
-CheckBox

@@ -387,17 +387,17 @@ func _analyze_xr_data():
 	# Check if sample size is valid
 	var sample_size_text = sample_size_input.text.strip_edges()
 	if not sample_size_text.is_valid_int():
-		_show_error("Please enter a valid sample size (integer between 2 and 25)")
+		_show_error("Введите размер выборок n")
 		return
 	
 	var sample_size = int(sample_size_text)
 	if sample_size < 2 or sample_size > 25:
-		_show_error("Sample size must be between 2 and 25")
+		_show_error("Размер групп должен быть больше 2 и меньше 25")
 		return
 	
 	# Check if we have at least 2 subgroups
 	if subgroup_items.size() < 2:
-		_show_error("Please enter at least 2 subgroups")
+		_show_error("Введите хотя бы 2 подгруппы")
 		return
 	
 	# Reset results

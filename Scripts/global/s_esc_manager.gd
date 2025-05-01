@@ -1,6 +1,5 @@
 extends Node
-# This script should be added as an autoload singleton
-# in Project > Project Settings > Autoload
+
 const ESC_MENU_SCENE = preload("res://Scenes/sc_esc_menu.tscn")
 var esc_menu_instance = null
 var current_scene = ""
@@ -11,7 +10,7 @@ func _ready():
 	add_child(esc_menu_instance)
 	
 	# Track scene changes
-	get_tree().get_root().connect("tree_changed", _on_tree_changed)
+	get_tree().root.connect("tree_changed", _on_tree_changed)
 	
 	# Set the initial scene path
 	current_scene = get_tree().current_scene.scene_file_path

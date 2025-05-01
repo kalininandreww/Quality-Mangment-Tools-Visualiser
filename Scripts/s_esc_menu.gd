@@ -34,6 +34,12 @@ func _ready():
 	# Connect signal for the settings Apply button
 	%ApplySettingsButton.pressed.connect(_on_apply_settings_pressed)
 	%QuitSettingButton.pressed.connect(_on_close_settings_pressed)
+	
+	# Save default settings if no config file exists yet
+	if not FileAccess.file_exists(CONFIG_FILE_PATH):
+		print("Creating default settings file")
+		apply_settings()  # Apply default values
+		save_settings()   # Save them to create the file
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):  # ESC key
@@ -74,21 +80,31 @@ func _on_quit_no_pressed():
 
 func _on_apply_settings_pressed():
 	apply_settings()
-	save_settings()
+	# Add error handling for save_settings
+	var result = save_settings()
+	if result != OK:
+		print("Error saving settings: ", result)
+	else:
+		print("Settings saved successfully to: ", CONFIG_FILE_PATH)
 	settings_panel.visible = false
 
 func _on_close_settings_pressed():
+	# Optionally save settings on close as well
+	var result = save_settings()
+	if result != OK:
+		print("Error saving settings on close: ", result)
 	settings_panel.visible = false
 
 # Load color settings from the config file
 func load_settings(): 
 	var err = config.load(CONFIG_FILE_PATH)
 	if err != OK:
-		print("No config file found. Using default settings.")
+		print("No config file found or error loading. Using default settings. Error code: ", err)
 		return
 		
 	# Apply the loaded settings to the color pickers
 	# Ishikawa settings
+	set_color_picker_value(%background_color, config.get_value("ishikawa", "background_color", Color("#FEFAE0")))
 	set_color_picker_value(%spine_color, config.get_value("ishikawa", "spine_color", Color.BLACK))
 	set_color_picker_value(%branch_color, config.get_value("ishikawa", "branch_color", Color.BLACK))
 	set_color_picker_value(%subbranch_color, config.get_value("ishikawa", "subbranch_color", Color.BLACK))
@@ -114,8 +130,7 @@ func load_settings():
 	set_color_picker_value(%sp_regression_line_color, config.get_value("scatter", "regression_line_color", Color.RED))
 	set_color_picker_value(%sp_grid_color, config.get_value("scatter", "grid_color", Color(0.3, 0.3, 0.3, 0.5)))
 	
-	
-	 #Control Charts settings
+	#Control Charts settings
 	set_color_picker_value(%cc_background_color, config.get_value("control_charts", "background_color", Color("#FEFAE0")))
 	set_color_picker_value(%cc_axis_color, config.get_value("control_charts", "axis_color", Color.BLACK))
 	set_color_picker_value(%cc_label_text_color, config.get_value("control_charts", "label_text_color", Color.BLACK))
@@ -222,7 +237,7 @@ func apply_settings():
 # Save settings to the config file
 func save_settings():
 	# Ishikawa settings
-	config.set_value("ishikawa", "background_color",%background_color.color)
+	config.set_value("ishikawa", "background_color", %background_color.color)
 	config.set_value("ishikawa", "spine_color", %spine_color.color)
 	config.set_value("ishikawa", "branch_color", %branch_color.color)
 	config.set_value("ishikawa", "subbranch_color", %subbranch_color.color)
@@ -249,7 +264,7 @@ func save_settings():
 	config.set_value("scatter", "grid_color", %sp_grid_color.color)
 
 	# Control Charts settings
-	config.set_value("control_charts", "background_color",  %sp_background_color.color)
+	config.set_value("control_charts", "background_color", %cc_background_color.color)
 	config.set_value("control_charts", "axis_color", %cc_axis_color.color)
 	config.set_value("control_charts", "label_text_color", %cc_label_text_color.color)
 	config.set_value("control_charts", "input_text_color", %cc_input_text_color.color)
@@ -263,7 +278,7 @@ func save_settings():
 	config.set_value("control_charts", "warning_color", %cc_warning_color.color)
 	
 	# Histogram settings
-	config.set_value("histogram", "background_color",  %sp_background_color.color)
+	config.set_value("histogram", "background_color", %h_background_color.color)
 	config.set_value("histogram", "axis_color", %h_axis_color.color)
 	config.set_value("histogram", "label_text_color", %h_label_text_color.color)
 	config.set_value("histogram", "input_text_color", %h_input_text_color.color)
@@ -274,5 +289,8 @@ func save_settings():
 	config.set_value("histogram", "mean_line_color", %h_mean_line_color.color)
 	config.set_value("histogram", "std_dev_line_color", %h_std_dev_line_color.color)
 	
-	# Save to file
-	config.save(CONFIG_FILE_PATH)
+	# Save to file with error handling
+	var err = config.save(CONFIG_FILE_PATH)
+	if err != OK:
+		push_error("Failed to save config file: " + str(err))
+	return err
