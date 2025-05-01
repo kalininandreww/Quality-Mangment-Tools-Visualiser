@@ -1,7 +1,5 @@
-res://Scenes/Tabs/SC_main_screen.tscn
+res://Scenes/sc_esc_menu.tscn
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/sc_control_charts.tscn
-res://Scenes/sc_subgroup_item.tscn
-res://Scripts/sc_control_cards.gd
-res://Scenes/sc_defect_item.tscn
+res://Scripts/s_esc_menu.gd
+res://Scenes/Tabs/SC_main_screen.tscn

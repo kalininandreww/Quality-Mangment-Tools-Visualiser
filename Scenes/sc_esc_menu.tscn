@@ -1,0 +1,570 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw8a2bwl3d8xa"]
+
+[ext_resource type="Script" path="res://Scripts/s_esc_menu.gd" id="1_7sou4"]
+
+[node name="ESCMenuLayer" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_7sou4")
+
+[node name="EscMenu" type="Panel" parent="."]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -100.0
+offset_right = 135.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EscMenu"]
+custom_minimum_size = Vector2(0.15, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="EscMenu/VBoxContainer"]
+layout_mode = 2
+text = "Меню"
+horizontal_alignment = 1
+
+[node name="QuitButton" type="Button" parent="EscMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Выйти"
+
+[node name="SettingsButton" type="Button" parent="EscMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Настройки цветов интерфейса"
+
+[node name="QuitConfirmation" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuitConfirmation"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 20.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="QuitConfirmation/VBoxContainer"]
+layout_mode = 2
+text = "Вы точно хотите выйти?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuitConfirmation/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="YesButton" type="Button" parent="QuitConfirmation/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Да"
+
+[node name="NoButton" type="Button" parent="QuitConfirmation/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Нет"
+
+[node name="SettingsPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMarginContainer" type="MarginContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Настройки цвета интерфейса"
+horizontal_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Ishikawa" type="ScrollContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Цвет хребта"
+
+[node name="spine_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Branch Color"
+
+[node name="branch_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Subbranch Color"
+
+[node name="subbranch_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Subsubbone Color"
+
+[node name="subsubbone_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Text Color"
+
+[node name="text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "UI Text Color"
+
+[node name="ui_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Ishikawa/VBoxContainer/HBoxContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Pareto" type="ScrollContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Axis Color"
+
+[node name="axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Bar Text Color"
+
+[node name="bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cumulative Line Color"
+
+[node name="cumulative_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0, 0, 1)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Cutoff Line Color"
+
+[node name="cutoff_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0, 1)
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Первый цвет градиента"
+
+[node name="bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.909349, 1.92523e-07, 0.482505, 1)
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "Последний цвет градиента"
+
+[node name="bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Pareto/VBoxContainer/HBoxContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.931593, 0.60414, 1)
+
+[node name="1" type="ScrollContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Axis Color"
+
+[node name="axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Bar Text Color"
+
+[node name="bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cumulative Line Color"
+
+[node name="cumulative_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0, 0, 1)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Cutoff Line Color"
+
+[node name="cutoff_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0, 1)
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Первый цвет градиента"
+
+[node name="bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.909349, 1.92523e-07, 0.482505, 1)
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "Последний цвет градиента"
+
+[node name="bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/1/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.931593, 0.60414, 1)
+
+[node name="2" type="ScrollContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Axis Color"
+
+[node name="axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Bar Text Color"
+
+[node name="bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cumulative Line Color"
+
+[node name="cumulative_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0, 0, 1)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Cutoff Line Color"
+
+[node name="cutoff_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0, 1)
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Первый цвет градиента"
+
+[node name="bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.909349, 1.92523e-07, 0.482505, 1)
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "Последний цвет градиента"
+
+[node name="bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/2/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.931593, 0.60414, 1)
+
+[node name="3" type="ScrollContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Axis Color"
+
+[node name="axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Bar Text Color"
+
+[node name="bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cumulative Line Color"
+
+[node name="cumulative_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0, 0, 1)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Cutoff Line Color"
+
+[node name="cutoff_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0, 1)
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Первый цвет градиента"
+
+[node name="bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.909349, 1.92523e-07, 0.482505, 1)
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "Последний цвет градиента"
+
+[node name="bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/3/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.931593, 0.60414, 1)
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -41.0
+offset_right = 152.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="ApplySettingsButton" type="Button" parent="SettingsPanel/ButtonMarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Применить"
+
+[node name="QuitSettingButton" type="Button" parent="SettingsPanel/ButtonMarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Выйти"

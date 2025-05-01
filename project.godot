@@ -19,6 +19,10 @@ config/icon="res://ruler256.png"
 config/macos_native_icon="res://ruler256.icns"
 config/windows_native_icon="res://ruler256.ico"
 
+[autoload]
+
+ESCManager="*res://Scripts/global/s_esc_manager.gd"
+
 [display]
 
 window/size/viewport_width=1920
