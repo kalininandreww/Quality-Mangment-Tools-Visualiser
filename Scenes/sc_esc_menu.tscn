@@ -617,14 +617,28 @@ metadata/_tab_index = 4
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="HBoxContainer10" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer10"]
+layout_mode = 2
+text = "Цвет фона"
+
+[node name="h_background_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer10"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label1" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Axis Color"
+text = "Цвет осей"
 
-[node name="axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer"]
+[node name="h_axis_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 1, 1, 1)
@@ -632,11 +646,12 @@ color = Color(1, 1, 1, 1)
 [node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Bar Text Color"
+text = "Цвет текста"
 
-[node name="bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer2"]
+[node name="h_label_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 1, 1, 1)
@@ -644,50 +659,93 @@ color = Color(1, 1, 1, 1)
 [node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Cumulative Line Color"
+text = "Цвет введенного текста"
 
-[node name="cumulative_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer3"]
+[node name="h_input_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-color = Color(1, 0, 0, 1)
+color = Color(1, 1, 1, 1)
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
-text = "Cutoff Line Color"
+text = "Цвет текста столбцов"
 
-[node name="cutoff_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer4"]
+[node name="h_bar_text_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-color = Color(1, 1, 0, 1)
+color = Color(1, 1, 1, 1)
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer5"]
 layout_mode = 2
-text = "Первый цвет градиента"
+text = "Первый цвет градиента столбцов"
 
-[node name="bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer5"]
+[node name="h_bar_first_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-color = Color(0.909349, 1.92523e-07, 0.482505, 1)
+color = Color(1, 1, 1, 1)
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer6"]
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer6"]
 layout_mode = 2
-text = "Последний цвет градиента"
+text = "Последний цвет градиента столбцов"
 
-[node name="bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer6"]
+[node name="h_bar_last_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer6"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-color = Color(0, 0.931593, 0.60414, 1)
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+text = "Цвет кривой нормального распределения"
+
+[node name="h_normal_curve_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer7"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer8"]
+layout_mode = 2
+text = "Цвет средней линии"
+
+[node name="h_mean_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer8"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer9"]
+layout_mode = 2
+text = "Цвет линии квадратичного отклонения"
+
+[node name="h_std_dev_line_color" type="ColorPickerButton" parent="SettingsPanel/MainMarginContainer/VBoxContainer/TabContainer/Гистограмма/VBoxContainer/HBoxContainer9"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
 
 [node name="ButtonMarginContainer" type="MarginContainer" parent="SettingsPanel"]
 layout_mode = 1

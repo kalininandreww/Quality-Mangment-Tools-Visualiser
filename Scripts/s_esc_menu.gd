@@ -129,16 +129,17 @@ func load_settings():
 	set_color_picker_value(%cc_out_of_control_color, config.get_value("control_charts", "out_of_control_color", Color.YELLOW))
 	set_color_picker_value(%cc_warning_color, config.get_value("control_charts", "warning_color", Color.ORANGE))
 	
-	## Histogram settings
-	#set_color_picker_value("Histogram/axis_color", config.get_value("histogram", "axis_color", Color.WHITE))
-	#set_color_picker_value("Histogram/label_text_color", config.get_value("histogram", "label_text_color", Color.WHITE))
-	#set_color_picker_value("Histogram/input_text_color", config.get_value("histogram", "input_text_color", Color.WHITE))
-	#set_color_picker_value("Histogram/bar_text_color", config.get_value("histogram", "bar_text_color", Color.WHITE))
-	#set_color_picker_value("Histogram/bar_first_color", config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9)))
-	#set_color_picker_value("Histogram/bar_last_color", config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3)))
-	#set_color_picker_value("Histogram/normal_curve_color", config.get_value("histogram", "normal_curve_color", Color.RED))
-	#set_color_picker_value("Histogram/mean_line_color", config.get_value("histogram", "mean_line_color", Color.GREEN))
-	#set_color_picker_value("Histogram/std_dev_line_color", config.get_value("histogram", "std_dev_line_color", Color.YELLOW))
+	# Histogram settings
+	set_color_picker_value(%h_background_color, config.get_value("histogram", "background_color", Color("#FEFAE0")))
+	set_color_picker_value(%h_axis_color, config.get_value("histogram", "axis_color", Color.ROYAL_BLUE))
+	set_color_picker_value(%h_label_text_color, config.get_value("histogram", "label_text_color", Color.BLACK))
+	set_color_picker_value(%h_input_text_color, config.get_value("histogram", "input_text_color", Color.WHITE))
+	set_color_picker_value(%h_bar_text_color, config.get_value("histogram", "bar_text_color", Color.BLACK))
+	set_color_picker_value(%h_bar_first_color, config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9)))
+	set_color_picker_value(%h_bar_last_color, config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3)))
+	set_color_picker_value(%h_normal_curve_color, config.get_value("histogram", "normal_curve_color", Color.RED))
+	set_color_picker_value(%h_mean_line_color, config.get_value("histogram", "mean_line_color", Color.GREEN))
+	set_color_picker_value(%h_std_dev_line_color, config.get_value("histogram", "std_dev_line_color", Color.YELLOW))
 
 # Set color picker value by path
 func set_color_picker_value(path, color):
@@ -206,15 +207,16 @@ func apply_settings():
 	
 	# Apply Histogram settings
 	for tool in histogram_tools:
-		tool.axis_color = settings_tabs.get_node("Histogram/axis_color").color
-		tool.label_text_color = settings_tabs.get_node("Histogram/label_text_color").color
-		tool.input_text_color = settings_tabs.get_node("Histogram/input_text_color").color
-		tool.bar_text_color = settings_tabs.get_node("Histogram/bar_text_color").color
-		tool.bar_first_color = settings_tabs.get_node("Histogram/bar_first_color").color
-		tool.bar_last_color = settings_tabs.get_node("Histogram/bar_last_color").color
-		tool.normal_curve_color = settings_tabs.get_node("Histogram/normal_curve_color").color
-		tool.mean_line_color = settings_tabs.get_node("Histogram/mean_line_color").color
-		tool.std_dev_line_color = settings_tabs.get_node("Histogram/std_dev_line_color").color
+		tool.background_color = %h_background_color.color
+		tool.axis_color = %h_axis_color.color
+		tool.label_text_color = %h_label_text_color.color
+		tool.input_text_color = %h_input_text_color.color
+		tool.bar_text_color = %h_bar_text_color.color
+		tool.bar_first_color = %h_bar_first_color.color
+		tool.bar_last_color = %h_bar_last_color.color
+		tool.normal_curve_color = %h_normal_curve_color.color
+		tool.mean_line_color = %h_mean_line_color.color
+		tool.std_dev_line_color = %h_std_dev_line_color.color
 		tool.update_colors()
 
 # Save settings to the config file
@@ -260,16 +262,17 @@ func save_settings():
 	config.set_value("control_charts", "out_of_control_color", %cc_out_of_control_color.color)
 	config.set_value("control_charts", "warning_color", %cc_warning_color.color)
 	
-	## Histogram settings
-	#config.set_value("histogram", "axis_color", settings_tabs.get_node("Histogram/axis_color").color)
-	#config.set_value("histogram", "label_text_color", settings_tabs.get_node("Histogram/label_text_color").color)
-	#config.set_value("histogram", "input_text_color", settings_tabs.get_node("Histogram/input_text_color").color)
-	#config.set_value("histogram", "bar_text_color", settings_tabs.get_node("Histogram/bar_text_color").color)
-	#config.set_value("histogram", "bar_first_color", settings_tabs.get_node("Histogram/bar_first_color").color)
-	#config.set_value("histogram", "bar_last_color", settings_tabs.get_node("Histogram/bar_last_color").color)
-	#config.set_value("histogram", "normal_curve_color", settings_tabs.get_node("Histogram/normal_curve_color").color)
-	#config.set_value("histogram", "mean_line_color", settings_tabs.get_node("Histogram/mean_line_color").color)
-	#config.set_value("histogram", "std_dev_line_color", settings_tabs.get_node("Histogram/std_dev_line_color").color)
+	# Histogram settings
+	config.set_value("histogram", "background_color",  %sp_background_color.color)
+	config.set_value("histogram", "axis_color", %h_axis_color.color)
+	config.set_value("histogram", "label_text_color", %h_label_text_color.color)
+	config.set_value("histogram", "input_text_color", %h_input_text_color.color)
+	config.set_value("histogram", "bar_text_color", %h_bar_text_color.color)
+	config.set_value("histogram", "bar_first_color", %h_bar_first_color.color)
+	config.set_value("histogram", "bar_last_color", %h_bar_last_color.color)
+	config.set_value("histogram", "normal_curve_color", %h_normal_curve_color.color)
+	config.set_value("histogram", "mean_line_color", %h_mean_line_color.color)
+	config.set_value("histogram", "std_dev_line_color", %h_std_dev_line_color.color)
 	
 	# Save to file
 	config.save(CONFIG_FILE_PATH)

@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bifbc8375xc16"]
+[gd_scene load_steps=2 format=3 uid="uid://bifbc8375xc16"]
 
 [ext_resource type="Script" path="res://Scripts/s_histogram.gd" id="1_h4qdb"]
-[ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="2_ee6jw"]
 
 [node name="SC_Histogram" type="Control"]
 layout_mode = 3
@@ -11,17 +10,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h4qdb")
-axis_color = Color(0, 0, 0, 1)
-label_text_color = Color(0, 0, 0, 1)
-input_text_color = Color(0, 0, 0, 1)
-bar_text_color = Color(0, 0, 0, 1)
-bar_first_color = Color(0.556863, 0.721569, 0.898039, 1)
-bar_last_color = Color(0.713726, 0.27451, 0.882353, 1)
-normal_curve_color = Color(0.713726, 0.27451, 0.372549, 1)
-mean_line_color = Color(0.32549, 0.478431, 0.352941, 1)
-std_dev_line_color = Color(0.556863, 0.721569, 0.898039, 1)
 
-[node name="Background" parent="." instance=ExtResource("2_ee6jw")]
+[node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.996078, 0.980392, 0.878431, 1)
 
 [node name="SplitContainer" type="SplitContainer" parent="."]
 layout_mode = 1

@@ -3,15 +3,17 @@ extends Control
 # Exportable variables
 @export var min_bin_count: int = 5  # Minimum number of bins
 @export var max_bin_count: int = 20  # Maximum number of bins
-@export_color_no_alpha var axis_color: Color = Color.WHITE
-@export_color_no_alpha var label_text_color: Color = Color.WHITE  # For all UI labels
-@export_color_no_alpha var input_text_color: Color = Color.WHITE  # For TextEdit input
-@export_color_no_alpha var bar_text_color: Color = Color.WHITE    # For text on histogram bars
-@export_color_no_alpha var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
-@export_color_no_alpha var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
-@export_color_no_alpha var normal_curve_color: Color = Color.RED
-@export_color_no_alpha var mean_line_color: Color = Color.GREEN
-@export_color_no_alpha var std_dev_line_color: Color = Color.YELLOW
+
+var background_color: Color = Color("#FEFAE0")
+var axis_color: Color = Color.WHITE
+var label_text_color: Color = Color.WHITE  # For all UI labels
+var input_text_color: Color = Color.WHITE  # For TextEdit input
+var bar_text_color: Color = Color.WHITE    # For text on histogram bars
+var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
+var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
+var normal_curve_color: Color = Color.RED
+var mean_line_color: Color = Color.GREEN
+var std_dev_line_color: Color = Color.YELLOW
 
 # Node references
 @onready var split_container = $SplitContainer
@@ -57,8 +59,12 @@ var file_dialog = null
 var label_all_bins = false
 
 func _ready():
+	ESCManager.register_tool(self, "histogram")
+	load_config_colors()
+	
 	# Apply text colors to UI elements
 	_apply_text_colors()
+	%Background.color = background_color
 	
 	# Set up analyze button
 	analyze_button.text = "Анализировать данные"
@@ -84,6 +90,33 @@ func _ready():
 	
 	# Setup the checkbox for bin labeling
 	label_all_bins_checkbox.connect("toggled", _on_label_all_bins_toggled)
+
+func load_config_colors():
+	var config = ConfigFile.new()
+	var err = config.load("user://ui_settings.cfg")
+	if err != OK:
+		print("No config file found. Using default colors.")
+		return
+	
+	background_color = config.get_value("histogram", "background_color", Color("#FEFAE0"))
+	axis_color = config.get_value("histogram", "axis_color", Color.ROYAL_BLUE)
+	label_text_color = config.get_value("histogram", "label_text_color", Color.BLACK)
+	input_text_color = config.get_value("histogram", "input_text_color", Color.WHITE)
+	bar_text_color = config.get_value("histogram", "bar_text_color", Color.BLACK)
+	bar_first_color = config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9))
+	bar_last_color = config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3))
+	normal_curve_color = config.get_value("histogram", "normal_curve_color", Color.RED)
+	mean_line_color = config.get_value("histogram", "mean_line_color", Color.GREEN)
+	std_dev_line_color = config.get_value("histogram", "std_dev_line_color", Color.YELLOW)
+
+func update_colors():
+	%Background.color = background_color
+	_apply_text_colors()
+	_update_bin_label(bin_slider.value)
+	_calculate_histogram()
+	_update_statistics_label()
+	_draw_histogram()
+	diagram_container.queue_redraw()
 
 func _apply_text_colors():
 	# Apply text colors to all relevant UI elements
