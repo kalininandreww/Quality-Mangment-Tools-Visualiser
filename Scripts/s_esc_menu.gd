@@ -14,10 +14,6 @@ const CONFIG_FILE_PATH = "user://ui_settings.cfg"
 var current_scene: String = ""
 var config = ConfigFile.new()
 
-# Text for quit button
-var main_menu_text : String = "Выйти"
-var not_main_menu_text : String = "Вернуться в главное меню"
-
 func _ready():
 	# Initially hide all menus
 	esc_menu.visible = false
@@ -54,10 +50,6 @@ func _input(event):
 
 func set_current_scene(scene_path):
 	current_scene = scene_path
-	if scene_path == MAIN_MENU_PATH:
-		%QuitButton.text = main_menu_text
-	else:
-		%QuitButton.text = not_main_menu_text
 
 func _on_quit_button_pressed():
 	esc_menu.visible = false
@@ -69,13 +61,12 @@ func _on_settings_button_pressed():
 
 func _on_quit_yes_pressed():
 	quit_confirmation.visible = false
+	var current_scene_path = get_tree().current_scene.scene_file_path
 	
-	# Check if we're in the main menu or a tool
-	if current_scene == MAIN_MENU_PATH or current_scene == "":
+	if current_scene_path == MAIN_MENU_PATH:
 		get_tree().quit()
 	else:
-		# Return to main menu
-		get_tree().change_scene_to_file(MAIN_MENU_PATH)
+		get_tree().change_scene_to_packed(load(MAIN_MENU_PATH))
 
 func _on_quit_no_pressed():
 	quit_confirmation.visible = false

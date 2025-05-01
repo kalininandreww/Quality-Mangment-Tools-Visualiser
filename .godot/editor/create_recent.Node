@@ -1,4 +1,6 @@
 MarginContainer
+Control
+CanvasModulate
 Button
 HBoxContainer
 VBoxContainer
@@ -7,8 +9,6 @@ Node
 Label
 LineEdit
 ItemList
-Control
 ScrollContainer
 SplitContainer
 CheckBox
-HSlider

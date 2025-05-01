@@ -3,3 +3,6 @@ res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
 res://Scripts/s_esc_menu.gd
 res://Scenes/Tabs/SC_main_screen.tscn
+res://Styles/esc_menu_panel.tres
+res://Scripts/s_ishikawa.gd
+res://Scripts/global/s_esc_manager.gd

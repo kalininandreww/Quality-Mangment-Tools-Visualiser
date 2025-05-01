@@ -141,6 +141,7 @@ var diagram_data = {
 var elements_panel:Node
 
 func _ready():
+	ESCManager.register_tool(self, "ishikawa")
 	elements_panel = %VBoxElements
 	add_spine()
 	%DiagramCanvas.draw.connect(_draw_diagram)
