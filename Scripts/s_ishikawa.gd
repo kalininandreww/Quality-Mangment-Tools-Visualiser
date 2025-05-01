@@ -115,13 +115,13 @@ extends VBoxContainer
 @export var length_step_modifier:float = 0.23
 
 # Added color export variables
-#@export var background_color:Color = Color("#FEFAE0")
-@export var spine_color:Color = Color.BLACK
-@export var branch_color:Color = Color.BLACK
-@export var subbranch_color:Color = Color.BLACK
-@export var subsubbone_color:Color = Color.BLACK
-@export var text_color:Color = Color.BLACK
-@export var ui_text_color:Color = Color.BLACK  # New variable for UI text color
+var background_color:Color = Color("#FEFAE0")
+var spine_color:Color = Color.BLACK
+var branch_color:Color = Color.BLACK
+var subbranch_color:Color = Color.BLACK
+var subsubbone_color:Color = Color.BLACK
+var text_color:Color = Color.BLACK
+var ui_text_color:Color = Color.BLACK
 
 var last_branch_pos
 
@@ -142,9 +142,32 @@ var elements_panel:Node
 
 func _ready():
 	ESCManager.register_tool(self, "ishikawa")
+	load_config_colors()
+	%Background.color = background_color
 	elements_panel = %VBoxElements
 	add_spine()
 	%DiagramCanvas.draw.connect(_draw_diagram)
+
+func load_config_colors():
+	var config = ConfigFile.new()
+	var err = config.load("user://ui_settings.cfg")
+	if err != OK:
+		print("No config file found. Using default colors.")
+		return
+	
+	background_color = config.get_value("ishikawa", "background_color", Color("#FEFAE0"))
+	spine_color = config.get_value("ishikawa", "spine_color", Color.BLACK)
+	branch_color = config.get_value("ishikawa", "branch_color", Color.BLACK)
+	subbranch_color = config.get_value("ishikawa", "subbranch_color", Color.BLACK)
+	subsubbone_color = config.get_value("ishikawa", "subsubbone_color", Color.BLACK)
+	text_color = config.get_value("ishikawa", "text_color", Color.BLACK)
+	ui_text_color = config.get_value("ishikawa", "ui_text_color", Color.BLACK)
+
+
+func update_colors():
+	%Background.color = background_color
+	update_diagram()
+	_draw_diagram()
 
 
 func add_spine():

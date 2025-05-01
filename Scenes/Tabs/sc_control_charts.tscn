@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://5by4p027o41b"]
+[gd_scene load_steps=2 format=3 uid="uid://5by4p027o41b"]
 
 [ext_resource type="Script" path="res://Scripts/sc_control_cards.gd" id="1_b6fla"]
-[ext_resource type="PackedScene" uid="uid://dexludemq64ko" path="res://Scenes/SC_Background.tscn" id="2_34v6q"]
 
 [node name="sc_Control_cards" type="Control"]
 layout_mode = 3
@@ -11,11 +10,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b6fla")
-axis_color = Color(0, 0, 0, 1)
-label_text_color = Color(0, 0, 0, 1)
-input_text_color = Color(0, 0, 0, 1)
 
-[node name="Background" parent="." instance=ExtResource("2_34v6q")]
+[node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.996078, 0.980392, 0.878431, 1)
 
 [node name="SplitContainer" type="SplitContainer" parent="."]
 unique_name_in_owner = true

@@ -1,12 +1,13 @@
 extends Control
 
 # Exportable variables
-@export_color_no_alpha var axis_color: Color = Color.WHITE
-@export_color_no_alpha var label_text_color: Color = Color.WHITE  # For all UI labels
-@export_color_no_alpha var input_text_color: Color = Color.WHITE  # For TextEdit input
-@export_color_no_alpha var point_color: Color = Color(0.2, 0.7, 0.9)  # Color for data points
-@export_color_no_alpha var regression_line_color: Color = Color.RED
-@export_color_no_alpha var grid_color: Color = Color(0.3, 0.3, 0.3, 0.5)
+var background_color: Color = Color("#FEFAE0")
+var axis_color: Color = Color.WHITE
+var label_text_color: Color = Color.WHITE  # For all UI labels
+var input_text_color: Color = Color.WHITE  # For TextEdit input
+var point_color: Color = Color(0.2, 0.7, 0.9)  # Color for data points
+var regression_line_color: Color = Color.RED
+var grid_color: Color = Color(0.3, 0.3, 0.3, 0.5)
 
 # Node references
 @onready var split_container = $SplitContainer #
@@ -49,6 +50,8 @@ var file_dialog = null
 var single_data_mode = true
 
 func _ready():
+	ESCManager.register_tool(self, "scatter")
+	load_config_colors()
 	# Apply text colors to UI elements
 	_apply_text_colors()
 	
@@ -75,6 +78,30 @@ func _ready():
 	# Setup the checkbox for data input mode
 	single_data_mode_checkbox.button_pressed = true
 	single_data_mode_checkbox.connect("toggled", _on_data_mode_toggled)
+
+
+func load_config_colors():
+	var config = ConfigFile.new()
+	var err = config.load("user://ui_settings.cfg")
+	if err != OK:
+		print("No config file found. Using default colors.")
+		return
+	
+	background_color = config.get_value("scatter", "background_color", Color("#FEFAE0"))
+	axis_color = config.get_value("scatter", "axis_color", Color("#FEFAE0"))
+	label_text_color = config.get_value("scatter", "label_text_color", Color("#FEFAE0"))  # For all UI labels
+	input_text_color = config.get_value("scatter", "input_text_color", Color("#FEFAE0"))  # For TextEdit input
+	point_color = config.get_value("scatter", "point_color", Color("#FEFAE0"))  # Color for data points
+	regression_line_color = config.get_value("scatter", "regression_line_color", Color("#FEFAE0"))
+	grid_color = config.get_value("scatter", "grid_color", Color("#FEFAE0"))
+
+
+func update_colors():
+	%DiagramContainer.queue_redraw()
+	%Background.color = background_color
+	_apply_text_colors()
+	_draw_scatter_plot()
+	
 
 func _apply_text_colors():
 	# Apply text colors to all relevant UI elements

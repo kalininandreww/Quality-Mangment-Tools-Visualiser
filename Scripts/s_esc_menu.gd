@@ -81,7 +81,7 @@ func _on_close_settings_pressed():
 	settings_panel.visible = false
 
 # Load color settings from the config file
-func load_settings():
+func load_settings(): 
 	var err = config.load(CONFIG_FILE_PATH)
 	if err != OK:
 		print("No config file found. Using default settings.")
@@ -89,58 +89,61 @@ func load_settings():
 		
 	# Apply the loaded settings to the color pickers
 	# Ishikawa settings
-	set_color_picker_value("Ishikawa/spine_color", config.get_value("ishikawa", "spine_color", Color.BLACK))
-	set_color_picker_value("Ishikawa/branch_color", config.get_value("ishikawa", "branch_color", Color.BLACK))
-	set_color_picker_value("Ishikawa/subbranch_color", config.get_value("ishikawa", "subbranch_color", Color.BLACK))
-	set_color_picker_value("Ishikawa/subsubbone_color", config.get_value("ishikawa", "subsubbone_color", Color.BLACK))
-	set_color_picker_value("Ishikawa/text_color", config.get_value("ishikawa", "text_color", Color.BLACK))
-	set_color_picker_value("Ishikawa/ui_text_color", config.get_value("ishikawa", "ui_text_color", Color.BLACK))
+	set_color_picker_value(%spine_color, config.get_value("ishikawa", "spine_color", Color.BLACK))
+	set_color_picker_value(%branch_color, config.get_value("ishikawa", "branch_color", Color.BLACK))
+	set_color_picker_value(%subbranch_color, config.get_value("ishikawa", "subbranch_color", Color.BLACK))
+	set_color_picker_value(%subsubbone_color, config.get_value("ishikawa", "subsubbone_color", Color.BLACK))
+	set_color_picker_value(%text_color, config.get_value("ishikawa", "text_color", Color.BLACK))
+	set_color_picker_value(%ui_text_color, config.get_value("ishikawa", "ui_text_color", Color.BLACK))
 	
 	# Pareto settings
-	set_color_picker_value("Pareto/axis_color", config.get_value("pareto", "axis_color", Color.WHITE))
-	set_color_picker_value("Pareto/bar_text_color", config.get_value("pareto", "bar_text_color", Color.WHITE))
-	set_color_picker_value("Pareto/cumulative_line_color", config.get_value("pareto", "cumulative_line_color", Color.RED))
-	set_color_picker_value("Pareto/cutoff_line_color", config.get_value("pareto", "cutoff_line_color", Color.YELLOW))
-	set_color_picker_value("Pareto/bar_first_color", config.get_value("pareto", "bar_first_color", Color(0.2, 0.7, 0.9)))
-	set_color_picker_value("Pareto/bar_last_color", config.get_value("pareto", "bar_last_color", Color(0.8, 0.3, 0.3)))
+	set_color_picker_value(%paretto_background_color, config.get_value("pareto", "paretto_background_color", Color("#FEFAE0")))
+	set_color_picker_value(%axis_color, config.get_value("pareto", "axis_color", Color.WHITE))
+	set_color_picker_value(%bar_text_color, config.get_value("pareto", "bar_text_color", Color.WHITE))
+	set_color_picker_value(%cumulative_line_color, config.get_value("pareto", "cumulative_line_color", Color.RED))
+	set_color_picker_value(%cutoff_line_color, config.get_value("pareto", "cutoff_line_color", Color.YELLOW))
+	set_color_picker_value(%bar_first_color, config.get_value("pareto", "bar_first_color", Color(0.2, 0.7, 0.9)))
+	set_color_picker_value(%bar_last_color, config.get_value("pareto", "bar_last_color", Color(0.8, 0.3, 0.3)))
 	
-	# Scatter Plot settings
-	set_color_picker_value("ScatterPlot/axis_color", config.get_value("scatter", "axis_color", Color.WHITE))
-	set_color_picker_value("ScatterPlot/label_text_color", config.get_value("scatter", "label_text_color", Color.WHITE))
-	set_color_picker_value("ScatterPlot/input_text_color", config.get_value("scatter", "input_text_color", Color.WHITE))
-	set_color_picker_value("ScatterPlot/point_color", config.get_value("scatter", "point_color", Color(0.2, 0.7, 0.9)))
-	set_color_picker_value("ScatterPlot/regression_line_color", config.get_value("scatter", "regression_line_color", Color.RED))
-	set_color_picker_value("ScatterPlot/grid_color", config.get_value("scatter", "grid_color", Color(0.3, 0.3, 0.3, 0.5)))
+	#Scatter Plot settings
+	set_color_picker_value(%sp_background_color, config.get_value("scatter", "background_color", Color("#FEFAE0")))
+	set_color_picker_value(%sp_axis_color, config.get_value("scatter", "axis_color", Color.WHITE))
+	set_color_picker_value(%sp_label_text_color, config.get_value("scatter", "label_text_color", Color.WHITE))
+	set_color_picker_value(%sp_input_text_color, config.get_value("scatter", "input_text_color", Color.WHITE))
+	set_color_picker_value(%sp_point_color, config.get_value("scatter", "point_color", Color(0.2, 0.7, 0.9)))
+	set_color_picker_value(%sp_regression_line_color, config.get_value("scatter", "regression_line_color", Color.RED))
+	set_color_picker_value(%sp_grid_color, config.get_value("scatter", "grid_color", Color(0.3, 0.3, 0.3, 0.5)))
 	
-	# Control Charts settings
-	set_color_picker_value("ControlCharts/axis_color", config.get_value("control_charts", "axis_color", Color.WHITE))
-	set_color_picker_value("ControlCharts/label_text_color", config.get_value("control_charts", "label_text_color", Color.WHITE))
-	set_color_picker_value("ControlCharts/input_text_color", config.get_value("control_charts", "input_text_color", Color.WHITE))
-	set_color_picker_value("ControlCharts/grid_color", config.get_value("control_charts", "grid_color", Color(0.3, 0.3, 0.3)))
-	set_color_picker_value("ControlCharts/x_line_color", config.get_value("control_charts", "x_line_color", Color(0.2, 0.7, 0.9)))
-	set_color_picker_value("ControlCharts/r_line_color", config.get_value("control_charts", "r_line_color", Color(0.8, 0.3, 0.3)))
-	set_color_picker_value("ControlCharts/ucl_color", config.get_value("control_charts", "ucl_color", Color.RED))
-	set_color_picker_value("ControlCharts/lcl_color", config.get_value("control_charts", "lcl_color", Color.RED))
-	set_color_picker_value("ControlCharts/cl_color", config.get_value("control_charts", "cl_color", Color.GREEN))
-	set_color_picker_value("ControlCharts/out_of_control_color", config.get_value("control_charts", "out_of_control_color", Color.YELLOW))
-	set_color_picker_value("ControlCharts/warning_color", config.get_value("control_charts", "warning_color", Color.ORANGE))
 	
-	# Histogram settings
-	set_color_picker_value("Histogram/axis_color", config.get_value("histogram", "axis_color", Color.WHITE))
-	set_color_picker_value("Histogram/label_text_color", config.get_value("histogram", "label_text_color", Color.WHITE))
-	set_color_picker_value("Histogram/input_text_color", config.get_value("histogram", "input_text_color", Color.WHITE))
-	set_color_picker_value("Histogram/bar_text_color", config.get_value("histogram", "bar_text_color", Color.WHITE))
-	set_color_picker_value("Histogram/bar_first_color", config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9)))
-	set_color_picker_value("Histogram/bar_last_color", config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3)))
-	set_color_picker_value("Histogram/normal_curve_color", config.get_value("histogram", "normal_curve_color", Color.RED))
-	set_color_picker_value("Histogram/mean_line_color", config.get_value("histogram", "mean_line_color", Color.GREEN))
-	set_color_picker_value("Histogram/std_dev_line_color", config.get_value("histogram", "std_dev_line_color", Color.YELLOW))
+	 #Control Charts settings
+	set_color_picker_value(%cc_background_color, config.get_value("control_charts", "background_color", Color("#FEFAE0")))
+	set_color_picker_value(%cc_axis_color, config.get_value("control_charts", "axis_color", Color.BLACK))
+	set_color_picker_value(%cc_label_text_color, config.get_value("control_charts", "label_text_color", Color.BLACK))
+	set_color_picker_value(%cc_input_text_color, config.get_value("control_charts", "input_text_color", Color.WHITE))
+	set_color_picker_value(%cc_grid_color, config.get_value("control_charts", "grid_color", Color(0.3, 0.3, 0.3)))
+	set_color_picker_value(%cc_x_line_color, config.get_value("control_charts", "x_line_color", Color(0.2, 0.7, 0.9)))
+	set_color_picker_value(%cc_r_line_color, config.get_value("control_charts", "r_line_color", Color(0.8, 0.3, 0.3)))
+	set_color_picker_value(%cc_ucl_color, config.get_value("control_charts", "ucl_color", Color.RED))
+	set_color_picker_value(%cc_lcl_color, config.get_value("control_charts", "lcl_color", Color.RED))
+	set_color_picker_value(%cc_cl_color, config.get_value("control_charts", "cl_color", Color.GREEN))
+	set_color_picker_value(%cc_out_of_control_color, config.get_value("control_charts", "out_of_control_color", Color.YELLOW))
+	set_color_picker_value(%cc_warning_color, config.get_value("control_charts", "warning_color", Color.ORANGE))
+	
+	## Histogram settings
+	#set_color_picker_value("Histogram/axis_color", config.get_value("histogram", "axis_color", Color.WHITE))
+	#set_color_picker_value("Histogram/label_text_color", config.get_value("histogram", "label_text_color", Color.WHITE))
+	#set_color_picker_value("Histogram/input_text_color", config.get_value("histogram", "input_text_color", Color.WHITE))
+	#set_color_picker_value("Histogram/bar_text_color", config.get_value("histogram", "bar_text_color", Color.WHITE))
+	#set_color_picker_value("Histogram/bar_first_color", config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9)))
+	#set_color_picker_value("Histogram/bar_last_color", config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3)))
+	#set_color_picker_value("Histogram/normal_curve_color", config.get_value("histogram", "normal_curve_color", Color.RED))
+	#set_color_picker_value("Histogram/mean_line_color", config.get_value("histogram", "mean_line_color", Color.GREEN))
+	#set_color_picker_value("Histogram/std_dev_line_color", config.get_value("histogram", "std_dev_line_color", Color.YELLOW))
 
 # Set color picker value by path
 func set_color_picker_value(path, color):
-	var picker = settings_tabs.get_node(path)
-	if picker:
-		picker.color = color
+	var picker = path
+	picker.color = color
 
 # Apply the settings to the actual tool scripts
 func apply_settings():
@@ -151,49 +154,54 @@ func apply_settings():
 	var control_charts_tools = get_tree().get_nodes_in_group("control_charts_tool")
 	var histogram_tools = get_tree().get_nodes_in_group("histogram_tool")
 	
+	
 	# Apply Ishikawa settings
 	for tool in ishikawa_tools:
-		tool.spine_color = settings_tabs.get_node("Ishikawa/spine_color").color
-		tool.branch_color = settings_tabs.get_node("Ishikawa/branch_color").color
-		tool.subbranch_color = settings_tabs.get_node("Ishikawa/subbranch_color").color
-		tool.subsubbone_color = settings_tabs.get_node("Ishikawa/subsubbone_color").color
-		tool.text_color = settings_tabs.get_node("Ishikawa/text_color").color
-		tool.ui_text_color = settings_tabs.get_node("Ishikawa/ui_text_color").color
+		tool.background_color = %background_color.color
+		tool.spine_color = %spine_color.color
+		tool.branch_color = %branch_color.color
+		tool.subbranch_color = %subbranch_color.color
+		tool.subsubbone_color = %subsubbone_color.color
+		tool.text_color = %text_color.color
+		tool.ui_text_color = %ui_text_color.color
 		tool.update_colors()
 	
 	# Apply Pareto settings
 	for tool in pareto_tools:
-		tool.axis_color = settings_tabs.get_node("Pareto/axis_color").color
-		tool.bar_text_color = settings_tabs.get_node("Pareto/bar_text_color").color
-		tool.cumulative_line_color = settings_tabs.get_node("Pareto/cumulative_line_color").color
-		tool.cutoff_line_color = settings_tabs.get_node("Pareto/cutoff_line_color").color
-		tool.bar_first_color = settings_tabs.get_node("Pareto/bar_first_color").color
-		tool.bar_last_color = settings_tabs.get_node("Pareto/bar_last_color").color
+		tool.background_color = %paretto_background_color.color
+		tool.axis_color = %axis_color.color
+		tool.bar_text_color = %bar_text_color.color
+		tool.cumulative_line_color = %cumulative_line_color.color
+		tool.cutoff_line_color = %cutoff_line_color.color
+		tool.bar_first_color = %bar_first_color.color
+		tool.bar_last_color = %bar_last_color.color
 		tool.update_colors()
 	
 	# Apply Scatter Plot settings
 	for tool in scatter_tools:
-		tool.axis_color = settings_tabs.get_node("ScatterPlot/axis_color").color
-		tool.label_text_color = settings_tabs.get_node("ScatterPlot/label_text_color").color
-		tool.input_text_color = settings_tabs.get_node("ScatterPlot/input_text_color").color
-		tool.point_color = settings_tabs.get_node("ScatterPlot/point_color").color
-		tool.regression_line_color = settings_tabs.get_node("ScatterPlot/regression_line_color").color
-		tool.grid_color = settings_tabs.get_node("ScatterPlot/grid_color").color
+		tool.background_color = %sp_background_color.color
+		tool.axis_color = %sp_axis_color.color
+		tool.label_text_color = %sp_label_text_color.color
+		tool.input_text_color = %sp_input_text_color.color
+		tool.point_color = %sp_point_color.color
+		tool.regression_line_color = %sp_regression_line_color.color
+		tool.grid_color = %sp_grid_color.color
 		tool.update_colors()
 	
 	# Apply Control Charts settings
 	for tool in control_charts_tools:
-		tool.axis_color = settings_tabs.get_node("ControlCharts/axis_color").color
-		tool.label_text_color = settings_tabs.get_node("ControlCharts/label_text_color").color
-		tool.input_text_color = settings_tabs.get_node("ControlCharts/input_text_color").color
-		tool.grid_color = settings_tabs.get_node("ControlCharts/grid_color").color
-		tool.x_line_color = settings_tabs.get_node("ControlCharts/x_line_color").color
-		tool.r_line_color = settings_tabs.get_node("ControlCharts/r_line_color").color
-		tool.ucl_color = settings_tabs.get_node("ControlCharts/ucl_color").color
-		tool.lcl_color = settings_tabs.get_node("ControlCharts/lcl_color").color
-		tool.cl_color = settings_tabs.get_node("ControlCharts/cl_color").color
-		tool.out_of_control_color = settings_tabs.get_node("ControlCharts/out_of_control_color").color
-		tool.warning_color = settings_tabs.get_node("ControlCharts/warning_color").color
+		tool.background_color = %cc_background_color.color
+		tool.axis_color = %cc_axis_color.color
+		tool.label_text_color = %cc_label_text_color.color
+		tool.input_text_color = %cc_input_text_color.color
+		tool.grid_color = %cc_grid_color.color
+		tool.x_line_color = %cc_x_line_color.color
+		tool.r_line_color = %cc_r_line_color.color
+		tool.ucl_color = %cc_ucl_color.color
+		tool.lcl_color = %cc_lcl_color.color
+		tool.cl_color = %cc_cl_color.color
+		tool.out_of_control_color = %cc_out_of_control_color.color
+		tool.warning_color = %cc_warning_color.color
 		tool.update_colors()
 	
 	# Apply Histogram settings
@@ -212,52 +220,56 @@ func apply_settings():
 # Save settings to the config file
 func save_settings():
 	# Ishikawa settings
-	config.set_value("ishikawa", "spine_color", settings_tabs.get_node("Ishikawa/spine_color").color)
-	config.set_value("ishikawa", "branch_color", settings_tabs.get_node("Ishikawa/branch_color").color)
-	config.set_value("ishikawa", "subbranch_color", settings_tabs.get_node("Ishikawa/subbranch_color").color)
-	config.set_value("ishikawa", "subsubbone_color", settings_tabs.get_node("Ishikawa/subsubbone_color").color)
-	config.set_value("ishikawa", "text_color", settings_tabs.get_node("Ishikawa/text_color").color)
-	config.set_value("ishikawa", "ui_text_color", settings_tabs.get_node("Ishikawa/ui_text_color").color)
+	config.set_value("ishikawa", "background_color",%background_color.color)
+	config.set_value("ishikawa", "spine_color", %spine_color.color)
+	config.set_value("ishikawa", "branch_color", %branch_color.color)
+	config.set_value("ishikawa", "subbranch_color", %subbranch_color.color)
+	config.set_value("ishikawa", "subsubbone_color", %subsubbone_color.color)
+	config.set_value("ishikawa", "text_color", %text_color.color)
+	config.set_value("ishikawa", "ui_text_color", %ui_text_color.color)
 	
 	# Pareto settings
-	config.set_value("pareto", "axis_color", settings_tabs.get_node("Pareto/axis_color").color)
-	config.set_value("pareto", "bar_text_color", settings_tabs.get_node("Pareto/bar_text_color").color)
-	config.set_value("pareto", "cumulative_line_color", settings_tabs.get_node("Pareto/cumulative_line_color").color)
-	config.set_value("pareto", "cutoff_line_color", settings_tabs.get_node("Pareto/cutoff_line_color").color)
-	config.set_value("pareto", "bar_first_color", settings_tabs.get_node("Pareto/bar_first_color").color)
-	config.set_value("pareto", "bar_last_color", settings_tabs.get_node("Pareto/bar_last_color").color)
+	config.set_value("pareto", "background_color", %paretto_background_color.color)
+	config.set_value("pareto", "axis_color", %axis_color.color)
+	config.set_value("pareto", "bar_text_color", %bar_text_color.color)
+	config.set_value("pareto", "cumulative_line_color", %cumulative_line_color.color)
+	config.set_value("pareto", "cutoff_line_color", %cutoff_line_color.color)
+	config.set_value("pareto", "bar_first_color", %bar_first_color.color)
+	config.set_value("pareto", "bar_last_color", %bar_last_color.color)
 	
 	# Scatter Plot settings
-	config.set_value("scatter", "axis_color", settings_tabs.get_node("ScatterPlot/axis_color").color)
-	config.set_value("scatter", "label_text_color", settings_tabs.get_node("ScatterPlot/label_text_color").color)
-	config.set_value("scatter", "input_text_color", settings_tabs.get_node("ScatterPlot/input_text_color").color)
-	config.set_value("scatter", "point_color", settings_tabs.get_node("ScatterPlot/point_color").color)
-	config.set_value("scatter", "regression_line_color", settings_tabs.get_node("ScatterPlot/regression_line_color").color)
-	config.set_value("scatter", "grid_color", settings_tabs.get_node("ScatterPlot/grid_color").color)
-	
+	config.set_value("scatter", "background_color",  %sp_background_color.color)
+	config.set_value("scatter", "axis_color", %sp_axis_color.color)
+	config.set_value("scatter", "label_text_color", %sp_label_text_color.color)
+	config.set_value("scatter", "input_text_color", %sp_input_text_color.color)
+	config.set_value("scatter", "point_color", %sp_point_color.color)
+	config.set_value("scatter", "regression_line_color", %sp_regression_line_color.color)
+	config.set_value("scatter", "grid_color", %sp_grid_color.color)
+
 	# Control Charts settings
-	config.set_value("control_charts", "axis_color", settings_tabs.get_node("ControlCharts/axis_color").color)
-	config.set_value("control_charts", "label_text_color", settings_tabs.get_node("ControlCharts/label_text_color").color)
-	config.set_value("control_charts", "input_text_color", settings_tabs.get_node("ControlCharts/input_text_color").color)
-	config.set_value("control_charts", "grid_color", settings_tabs.get_node("ControlCharts/grid_color").color)
-	config.set_value("control_charts", "x_line_color", settings_tabs.get_node("ControlCharts/x_line_color").color)
-	config.set_value("control_charts", "r_line_color", settings_tabs.get_node("ControlCharts/r_line_color").color)
-	config.set_value("control_charts", "ucl_color", settings_tabs.get_node("ControlCharts/ucl_color").color)
-	config.set_value("control_charts", "lcl_color", settings_tabs.get_node("ControlCharts/lcl_color").color)
-	config.set_value("control_charts", "cl_color", settings_tabs.get_node("ControlCharts/cl_color").color)
-	config.set_value("control_charts", "out_of_control_color", settings_tabs.get_node("ControlCharts/out_of_control_color").color)
-	config.set_value("control_charts", "warning_color", settings_tabs.get_node("ControlCharts/warning_color").color)
+	config.set_value("control_charts", "background_color",  %sp_background_color.color)
+	config.set_value("control_charts", "axis_color", %cc_axis_color.color)
+	config.set_value("control_charts", "label_text_color", %cc_label_text_color.color)
+	config.set_value("control_charts", "input_text_color", %cc_input_text_color.color)
+	config.set_value("control_charts", "grid_color", %cc_grid_color.color)
+	config.set_value("control_charts", "x_line_color", %cc_x_line_color.color)
+	config.set_value("control_charts", "r_line_color", %cc_r_line_color.color)
+	config.set_value("control_charts", "ucl_color", %cc_ucl_color.color)
+	config.set_value("control_charts", "lcl_color", %cc_lcl_color.color)
+	config.set_value("control_charts", "cl_color", %cc_cl_color.color)
+	config.set_value("control_charts", "out_of_control_color", %cc_out_of_control_color.color)
+	config.set_value("control_charts", "warning_color", %cc_warning_color.color)
 	
-	# Histogram settings
-	config.set_value("histogram", "axis_color", settings_tabs.get_node("Histogram/axis_color").color)
-	config.set_value("histogram", "label_text_color", settings_tabs.get_node("Histogram/label_text_color").color)
-	config.set_value("histogram", "input_text_color", settings_tabs.get_node("Histogram/input_text_color").color)
-	config.set_value("histogram", "bar_text_color", settings_tabs.get_node("Histogram/bar_text_color").color)
-	config.set_value("histogram", "bar_first_color", settings_tabs.get_node("Histogram/bar_first_color").color)
-	config.set_value("histogram", "bar_last_color", settings_tabs.get_node("Histogram/bar_last_color").color)
-	config.set_value("histogram", "normal_curve_color", settings_tabs.get_node("Histogram/normal_curve_color").color)
-	config.set_value("histogram", "mean_line_color", settings_tabs.get_node("Histogram/mean_line_color").color)
-	config.set_value("histogram", "std_dev_line_color", settings_tabs.get_node("Histogram/std_dev_line_color").color)
+	## Histogram settings
+	#config.set_value("histogram", "axis_color", settings_tabs.get_node("Histogram/axis_color").color)
+	#config.set_value("histogram", "label_text_color", settings_tabs.get_node("Histogram/label_text_color").color)
+	#config.set_value("histogram", "input_text_color", settings_tabs.get_node("Histogram/input_text_color").color)
+	#config.set_value("histogram", "bar_text_color", settings_tabs.get_node("Histogram/bar_text_color").color)
+	#config.set_value("histogram", "bar_first_color", settings_tabs.get_node("Histogram/bar_first_color").color)
+	#config.set_value("histogram", "bar_last_color", settings_tabs.get_node("Histogram/bar_last_color").color)
+	#config.set_value("histogram", "normal_curve_color", settings_tabs.get_node("Histogram/normal_curve_color").color)
+	#config.set_value("histogram", "mean_line_color", settings_tabs.get_node("Histogram/mean_line_color").color)
+	#config.set_value("histogram", "std_dev_line_color", settings_tabs.get_node("Histogram/std_dev_line_color").color)
 	
 	# Save to file
 	config.save(CONFIG_FILE_PATH)

@@ -1,6 +1,7 @@
+ColorRect
+CanvasModulate
 MarginContainer
 Control
-CanvasModulate
 Button
 HBoxContainer
 VBoxContainer

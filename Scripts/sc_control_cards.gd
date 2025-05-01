@@ -1,17 +1,18 @@
 extends Control
 
 # Exportable variables
-@export_color_no_alpha var axis_color: Color = Color.WHITE
-@export_color_no_alpha var label_text_color: Color = Color.WHITE
-@export_color_no_alpha var input_text_color: Color = Color.WHITE
-@export_color_no_alpha var grid_color: Color = Color(0.3, 0.3, 0.3)
-@export_color_no_alpha var x_line_color: Color = Color(0.2, 0.7, 0.9)  # Line for X values
-@export_color_no_alpha var r_line_color: Color = Color(0.8, 0.3, 0.3)  # Line for R values
-@export_color_no_alpha var ucl_color: Color = Color.RED
-@export_color_no_alpha var lcl_color: Color = Color.RED
-@export_color_no_alpha var cl_color: Color = Color.GREEN
-@export_color_no_alpha var out_of_control_color: Color = Color.YELLOW
-@export_color_no_alpha var warning_color: Color = Color.ORANGE
+var background_color: Color = Color("#FEFAE0")
+var axis_color: Color = Color.WHITE
+var label_text_color: Color = Color.WHITE
+var input_text_color: Color = Color.WHITE
+var grid_color: Color = Color(0.3, 0.3, 0.3)
+var x_line_color: Color = Color(0.2, 0.7, 0.9)  # Line for X values
+var r_line_color: Color = Color(0.8, 0.3, 0.3)  # Line for R values
+var ucl_color: Color = Color.RED
+var lcl_color: Color = Color.RED
+var cl_color: Color = Color.GREEN
+var out_of_control_color: Color = Color.YELLOW
+var warning_color: Color = Color.ORANGE
 
 # Node references
 @onready var split_container = %SplitContainer
@@ -123,7 +124,7 @@ const D4_FACTORS = {
 }
 
 # State variables
-var current_chart_type = "xr"  # "xr", "u", "z"
+var current_chart_type = "xr"  # "xr", "z"
 var file_dialog = null
 var sample_size_input = null
 
@@ -163,6 +164,8 @@ var z_results = {
 }
 
 func _ready():
+	ESCManager.register_tool(self, "control_charts")
+	load_config_colors()
 	# Set up the UI
 	_setup_buttons()
 	
@@ -173,6 +176,43 @@ func _ready():
 	diagram_container.connect("draw", _draw_control_chart)
 	
 	stats_label.add_theme_color_override("font_color", label_text_color)
+
+
+func load_config_colors():
+	var config = ConfigFile.new()
+	var err = config.load("user://ui_settings.cfg")
+	if err != OK:
+		print("No config file found. Using default colors.")
+		return
+	
+	background_color = config.get_value("control_charts", "background_color", Color.WHITE)
+	axis_color = config.get_value("control_charts", "axis_color", Color.WHITE)
+	label_text_color = config.get_value("control_charts", "label_text_color", Color.WHITE)
+	input_text_color = config.get_value("control_charts", "input_text_color", Color.WHITE)
+	grid_color = config.get_value("control_charts", "grid_color", Color(0.3, 0.3, 0.3))
+	x_line_color = config.get_value("control_charts", "x_line_color", Color(0.2, 0.7, 0.9))
+	r_line_color = config.get_value("control_charts", "r_line_color", Color(0.8, 0.3, 0.3))
+	ucl_color = config.get_value("control_charts", "ucl_color", Color.RED)
+	lcl_color = config.get_value("control_charts", "lcl_color", Color.RED)
+	cl_color = config.get_value("control_charts", "cl_color", Color.GREEN)
+	out_of_control_color = config.get_value("control_charts", "out_of_control_color", Color.YELLOW)
+	warning_color = config.get_value("control_charts", "warning_color", Color.ORANGE)
+
+
+
+func update_colors():
+	%Background.color = background_color
+	stats_label.add_theme_color_override("font_color", label_text_color)
+	
+	_update_xr_statistics_label()
+	_update_z_statistics_label()
+	
+	_setup_xr_chart_ui()
+	_setup_z_chart_ui()
+	
+	_draw_control_chart()
+	
+	_on_xr_button_pressed() #do this to clean up
 
 #SETUP BUTTONS
 

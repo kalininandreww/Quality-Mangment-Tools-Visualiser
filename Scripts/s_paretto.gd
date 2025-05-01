@@ -3,12 +3,14 @@ extends Control
 # Exportable variables
 @export var min_bar_value: float = 0.0
 @export var other_name: String = "Прочее"
-@export_color_no_alpha var axis_color: Color = Color.WHITE
-@export_color_no_alpha var bar_text_color: Color = Color.WHITE
-@export_color_no_alpha var cumulative_line_color: Color = Color.RED
-@export_color_no_alpha var cutoff_line_color: Color = Color.YELLOW
-@export_color_no_alpha var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
-@export_color_no_alpha var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
+
+var background_color: Color = Color("#FEFAE0")
+var axis_color: Color = Color.WHITE
+var bar_text_color: Color = Color.WHITE
+var cumulative_line_color: Color = Color.RED
+var cutoff_line_color: Color = Color.YELLOW
+var bar_first_color: Color = Color(0.2, 0.7, 0.9)  # Color for the first bar
+var bar_last_color: Color = Color(0.8, 0.3, 0.3)   # Color for the last bar
 
 # Node references
 @onready var split_container = $SplitContainer
@@ -31,6 +33,9 @@ var parameters = []
 var file_dialog = null
 
 func _ready():
+	ESCManager.register_tool(self, "pareto")
+	load_config_colors()
+	%Background.color = background_color
 	add_button.text = "Add Parameter"
 	add_button.connect("pressed", _on_add_button_pressed)
 	
@@ -44,7 +49,27 @@ func _ready():
 	
 	# Set up diagram container for drawing
 	diagram_container.connect("draw", _draw_diagram)
+
+func update_colors():
+	diagram_container.queue_redraw()
+	%Background.color = background_color
+	_draw_diagram()
+
+func load_config_colors():
+	var config = ConfigFile.new()
+	var err = config.load("user://ui_settings.cfg")
+	if err != OK:
+		print("No config file found. Using default colors.")
+		return
 	
+	background_color = config.get_value("pareto", "background_color", Color("#FEFAE0"))
+	axis_color = config.get_value("pareto", "axis_color", Color.BLACK)
+	bar_text_color = config.get_value("pareto", "bar_text_color", Color.BLACK)
+	cumulative_line_color = config.get_value("pareto", "cumulative_line_color", Color.BLACK)
+	cutoff_line_color = config.get_value("pareto", "cutoff_line_color", Color.BLACK)
+	bar_first_color = config.get_value("pareto", "bar_first_color", Color.DARK_RED)
+	bar_last_color = config.get_value("pareto", "bar_last_color", Color.CYAN)
+
 func _on_add_button_pressed():
 	var param_item = PARAM_SCENE.instantiate()
 	parameters_container.add_child(param_item)
