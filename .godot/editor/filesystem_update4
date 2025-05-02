@@ -2,6 +2,10 @@ res://Scenes/sc_esc_menu.tscn
 res://Styles/esc_menu_panel.tres
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scripts/s_esc_menu.gd
+res://Scripts/s_ishikawa.gd
+res://Scripts/s_paretto.gd
+res://Scripts/sc_scatter.gd
+res://Scripts/sc_control_cards.gd
+res://Scripts/s_histogram.gd
 res://Scenes/Tabs/sc_histogram.tscn
 res://Scenes/Tabs/SC_main_screen.tscn

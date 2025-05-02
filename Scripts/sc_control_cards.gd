@@ -185,18 +185,18 @@ func load_config_colors():
 		print("No config file found. Using default colors.")
 		return
 	
-	background_color = config.get_value("control_charts", "background_color", Color.WHITE)
-	axis_color = config.get_value("control_charts", "axis_color", Color.WHITE)
-	label_text_color = config.get_value("control_charts", "label_text_color", Color.WHITE)
-	input_text_color = config.get_value("control_charts", "input_text_color", Color.WHITE)
-	grid_color = config.get_value("control_charts", "grid_color", Color(0.3, 0.3, 0.3))
-	x_line_color = config.get_value("control_charts", "x_line_color", Color(0.2, 0.7, 0.9))
-	r_line_color = config.get_value("control_charts", "r_line_color", Color(0.8, 0.3, 0.3))
-	ucl_color = config.get_value("control_charts", "ucl_color", Color.RED)
-	lcl_color = config.get_value("control_charts", "lcl_color", Color.RED)
-	cl_color = config.get_value("control_charts", "cl_color", Color.GREEN)
-	out_of_control_color = config.get_value("control_charts", "out_of_control_color", Color.YELLOW)
-	warning_color = config.get_value("control_charts", "warning_color", Color.ORANGE)
+	background_color =     config.get_value("control_charts", "background_color", Color("#FEFAE0"))
+	axis_color =           	config.get_value("control_charts", "axis_color", Color.BLACK)
+	label_text_color =     	config.get_value("control_charts", "label_text_color", Color.BLACK)
+	input_text_color =     	config.get_value("control_charts", "input_text_color", Color.WHITE)
+	grid_color =           	config.get_value("control_charts", "grid_color", Color(0.419608, 0.419608, 0.423529, 0.356863))
+	x_line_color =         	config.get_value("control_charts", "x_line_color", Color(0.4, 0.654902, 0.631005, 1))
+	r_line_color =         	config.get_value("control_charts", "r_line_color", Color(0.447059, 0.654902, 0.4, 1))
+	ucl_color =            	config.get_value("control_charts", "ucl_color", Color(1, 0.419608, 0.419608, 1))
+	lcl_color =            	config.get_value("control_charts", "lcl_color", Color(1, 0.417969, 0.417969, 1))
+	cl_color =             	config.get_value("control_charts", "cl_color", Color(0.64967, 0.600739, 0.992188, 1))
+	out_of_control_color = 	config.get_value("control_charts", "out_of_control_color", Color(1, 0, 0, 1))
+	warning_color =        	config.get_value("control_charts", "warning_color", Color(0.988235, 0.54902, 0.301961, 1))
 
 
 

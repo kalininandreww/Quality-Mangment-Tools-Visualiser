@@ -156,12 +156,12 @@ func load_config_colors():
 		return
 	
 	background_color = config.get_value("ishikawa", "background_color", Color("#FEFAE0"))
-	spine_color = config.get_value("ishikawa", "spine_color", Color.BLACK)
-	branch_color = config.get_value("ishikawa", "branch_color", Color.BLACK)
-	subbranch_color = config.get_value("ishikawa", "subbranch_color", Color.BLACK)
+	spine_color =      config.get_value("ishikawa", "spine_color", Color.BLACK)
+	branch_color =     config.get_value("ishikawa", "branch_color", Color.BLACK)
+	subbranch_color =  config.get_value("ishikawa", "subbranch_color", Color.BLACK)
 	subsubbone_color = config.get_value("ishikawa", "subsubbone_color", Color.BLACK)
-	text_color = config.get_value("ishikawa", "text_color", Color.BLACK)
-	ui_text_color = config.get_value("ishikawa", "ui_text_color", Color.BLACK)
+	text_color =       config.get_value("ishikawa", "text_color", Color.BLACK)
+	ui_text_color =    config.get_value("ishikawa", "ui_text_color", Color.BLACK)
 
 
 func update_colors():

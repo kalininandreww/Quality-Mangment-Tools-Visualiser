@@ -98,16 +98,16 @@ func load_config_colors():
 		print("No config file found. Using default colors.")
 		return
 	
-	background_color = config.get_value("histogram", "background_color", Color("#FEFAE0"))
-	axis_color = config.get_value("histogram", "axis_color", Color.ROYAL_BLUE)
-	label_text_color = config.get_value("histogram", "label_text_color", Color.BLACK)
-	input_text_color = config.get_value("histogram", "input_text_color", Color.WHITE)
-	bar_text_color = config.get_value("histogram", "bar_text_color", Color.BLACK)
-	bar_first_color = config.get_value("histogram", "bar_first_color", Color(0.2, 0.7, 0.9))
-	bar_last_color = config.get_value("histogram", "bar_last_color", Color(0.8, 0.3, 0.3))
-	normal_curve_color = config.get_value("histogram", "normal_curve_color", Color.RED)
-	mean_line_color = config.get_value("histogram", "mean_line_color", Color.GREEN)
-	std_dev_line_color = config.get_value("histogram", "std_dev_line_color", Color.YELLOW)
+	background_color =      config.get_value("histogram", "background_color", Color("#FEFAE0"))
+	axis_color =         	config.get_value("histogram", "axis_color", Color(0, 0, 0, 1))
+	label_text_color =   	config.get_value("histogram", "label_text_color", Color.BLACK)
+	input_text_color =   	config.get_value("histogram", "input_text_color", Color.WHITE)
+	bar_text_color =     	config.get_value("histogram", "bar_text_color", Color.BLACK)
+	bar_first_color =    	config.get_value("histogram", "bar_first_color", Color(1, 0.701961, 0.901961, 1))
+	bar_last_color =     	config.get_value("histogram", "bar_last_color", Color(0.3, 0.553906, 0.8, 1))
+	normal_curve_color = 	config.get_value("histogram", "normal_curve_color", Color(0.992188, 0.805789, 0.364319, 1))
+	mean_line_color =    	config.get_value("histogram", "mean_line_color", Color(1, 0.474976, 0.0117188, 1))
+	std_dev_line_color = 	config.get_value("histogram", "std_dev_line_color", Color(1, 0.47451, 0.219608, 1))
 
 func update_colors():
 	%Background.color = background_color

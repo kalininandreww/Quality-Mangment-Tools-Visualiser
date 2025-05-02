@@ -87,13 +87,13 @@ func load_config_colors():
 		print("No config file found. Using default colors.")
 		return
 	
-	background_color = config.get_value("scatter", "background_color", Color("#FEFAE0"))
-	axis_color = config.get_value("scatter", "axis_color", Color("#FEFAE0"))
-	label_text_color = config.get_value("scatter", "label_text_color", Color("#FEFAE0"))  # For all UI labels
-	input_text_color = config.get_value("scatter", "input_text_color", Color("#FEFAE0"))  # For TextEdit input
-	point_color = config.get_value("scatter", "point_color", Color("#FEFAE0"))  # Color for data points
-	regression_line_color = config.get_value("scatter", "regression_line_color", Color("#FEFAE0"))
-	grid_color = config.get_value("scatter", "grid_color", Color("#FEFAE0"))
+	background_color =      config.get_value("scatter", "background_color", Color("#FEFAE0"))
+	axis_color =            config.get_value("scatter", "axis_color", Color.BLACK)
+	label_text_color =      config.get_value("scatter", "label_text_color", Color.BLACK)
+	input_text_color =      config.get_value("scatter", "input_text_color", Color.WHITE)
+	point_color =           config.get_value("scatter", "point_color", Color(0.506607, 0.591869, 0.847656, 1))
+	regression_line_color = config.get_value("scatter", "regression_line_color", Color(0.454902, 0.960784, 0.592157, 1))
+	grid_color =            config.get_value("scatter", "grid_color", Color(0.3, 0.3, 0.3, 0.5))
 
 
 func update_colors():

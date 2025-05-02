@@ -62,13 +62,13 @@ func load_config_colors():
 		print("No config file found. Using default colors.")
 		return
 	
-	background_color = config.get_value("pareto", "background_color", Color("#FEFAE0"))
-	axis_color = config.get_value("pareto", "axis_color", Color.BLACK)
-	bar_text_color = config.get_value("pareto", "bar_text_color", Color.BLACK)
-	cumulative_line_color = config.get_value("pareto", "cumulative_line_color", Color.BLACK)
-	cutoff_line_color = config.get_value("pareto", "cutoff_line_color", Color.BLACK)
-	bar_first_color = config.get_value("pareto", "bar_first_color", Color.DARK_RED)
-	bar_last_color = config.get_value("pareto", "bar_last_color", Color.CYAN)
+	background_color =      config.get_value("pareto", "paretto_background_color", Color("#FEFAE0"))
+	axis_color =            config.get_value("pareto", "axis_color", Color.BLACK)
+	bar_text_color =        config.get_value("pareto", "bar_text_color", Color.BLACK)
+	cumulative_line_color = config.get_value("pareto", "cumulative_line_color", Color(0.980469, 0.661505, 0.352356, 1))
+	cutoff_line_color =     config.get_value("pareto", "cutoff_line_color", Color(1, 0.258824, 0.439216, 1))
+	bar_first_color =       config.get_value("pareto", "bar_first_color", Color(0.260925, 0.629392, 0.742188, 1))
+	bar_last_color =        config.get_value("pareto", "bar_last_color", Color(0.447059, 0.713726, 0.494118, 1))
 
 func _on_add_button_pressed():
 	var param_item = PARAM_SCENE.instantiate()
