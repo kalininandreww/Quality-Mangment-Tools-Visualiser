@@ -1,6 +1,5 @@
-res://Scenes/sc_esc_menu.tscn
+res://Scenes/Tabs/SC_main_screen.tscn
 res://Styles/esc_menu_panel.tres
-res://Scenes/Tabs/sc_histogram.tscn
-res://Scripts/global/s_esc_manager.gd
+res://Styles/TO_ButtonHoverMM.tres
+res://Styles/TO_ButtonNormalMM.tres
 res://Scripts/s_esc_menu.gd
-res://Scripts/sc_control_cards.gd

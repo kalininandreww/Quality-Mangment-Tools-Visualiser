@@ -2,7 +2,8 @@ extends CanvasLayer
 
 # Paths
 const MAIN_MENU_PATH = "res://Scenes/Tabs/SC_main_screen.tscn"
-const CONFIG_FILE_PATH = "user://ui_settings.cfg"
+const exe_dir := OS.get_executable_path().get_base_dir()
+const CONFIG_FILE_PATH = exe_dir.path_join("ui_settings.cfg")
 
 # References to the UI elements
 @onready var esc_menu = %EscMenu
