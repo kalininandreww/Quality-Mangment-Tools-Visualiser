@@ -150,7 +150,7 @@ func _ready():
 
 func load_config_colors():
 	var config = ConfigFile.new()
-	var err = config.load("user://ui_settings.cfg")
+	var err = config.load(ESCManager.CONFIG_FILE_PATH)
 	if err != OK:
 		print("No config file found. Using default colors.")
 		return

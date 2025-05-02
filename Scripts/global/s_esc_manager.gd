@@ -3,6 +3,8 @@ extends Node
 const ESC_MENU_SCENE = preload("res://Scenes/sc_esc_menu.tscn")
 var esc_menu_instance = null
 var current_scene = ""
+var exe_dir := OS.get_executable_path().get_base_dir()
+var CONFIG_FILE_PATH = exe_dir.path_join("ui_settings.cfg")
 
 func _ready():
 	# Initialize the ESC menu and add it to the root

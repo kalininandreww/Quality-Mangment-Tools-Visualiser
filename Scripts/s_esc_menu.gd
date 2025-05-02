@@ -2,8 +2,7 @@ extends CanvasLayer
 
 # Paths
 const MAIN_MENU_PATH = "res://Scenes/Tabs/SC_main_screen.tscn"
-var exe_dir := OS.get_executable_path().get_base_dir()
-var CONFIG_FILE_PATH = exe_dir.path_join("ui_settings.cfg")
+var CONFIG_FILE_PATH
 
 # References to the UI elements
 @onready var esc_menu = %EscMenu
@@ -16,6 +15,7 @@ var current_scene: String = ""
 var config = ConfigFile.new()
 
 func _ready():
+	CONFIG_FILE_PATH = ESCManager.CONFIG_FILE_PATH
 	# Initially hide all menus
 	esc_menu.visible = false
 	quit_confirmation.visible = false

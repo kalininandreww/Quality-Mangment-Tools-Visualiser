@@ -9,3 +9,5 @@ res://Scripts/sc_control_cards.gd
 res://Scripts/s_histogram.gd
 res://Scenes/Tabs/sc_histogram.tscn
 res://Scenes/Tabs/SC_main_screen.tscn
+res://Scripts/global/s_esc_manager.gd
+res://Scripts/s_esc_menu.gd
