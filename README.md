@@ -42,8 +42,6 @@
   <br>4. Сохраните диаграмму в формате png, нажав кнопку в правом нижнем углу <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 <b> Настройка цветов </b> <br/>
   <br>1. Нажмите клавишу esc <br/>
   <br>2. Нажмите кнопку «Настройка цветовв интерфейса» <br/>
@@ -51,3 +49,6 @@
   <br>4. Нажмите кнопку «Применить» <br/>
 <br/>
 <br/>
+<b> Used assets </b> <br/>
+<br>Geologica by Sindre Bremnes, Frode Hellan - SIL Open Font License 1.1 <br/>
+<br>Ruler Icon from https://www.flaticon.com/free-icon/ruler_3976525?related_id=3976423&origin=search<br/>
