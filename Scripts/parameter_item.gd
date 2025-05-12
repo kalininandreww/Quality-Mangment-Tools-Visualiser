@@ -1,4 +1,3 @@
-# ParameterItem.gd
 extends HBoxContainer
 
 signal name_changed

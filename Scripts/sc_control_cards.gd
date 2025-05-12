@@ -1028,7 +1028,7 @@ func _cancel_screenshot():
 		file_dialog = null
 
 func _take_screenshot(path):
-	# The actual screenshot code here
+	# Actual screenshot code here
 	var capture_img = get_viewport().get_texture().get_image()
 	
 	# Get the global rect of our diagram container

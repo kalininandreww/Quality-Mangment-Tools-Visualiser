@@ -171,7 +171,7 @@ func _draw_diagram():
 	# Keep track of the widest value text for adaptive label positioning
 	var max_value_text_width = 0
 	
-	# CORRECTION: Draw value scale on left side (y-axis)
+	# Draw value scale on left side (y-axis)
 	var max_value_to_show = total_value
 	for i in range(0, 6):  # Show 6 value ticks (0, 20%, 40%, 60%, 80%, 100% of total)
 		var y_pos = start_y - (i / 5.0) * height
@@ -302,7 +302,7 @@ func _draw_diagram():
 		# If no intersection found, just draw horizontal line
 		canvas.draw_dashed_line(Vector2(start_x, y_80), Vector2(end_x, y_80), cutoff_line_color, 1, 5)
 	
-	# IMPROVED: Draw "80%" label with adaptive positioning to avoid overlap
+	# Draw "80%" label with adaptive positioning to avoid overlap
 	var percent_80_text = "80%"
 	var percent_80_width = font.get_string_size(percent_80_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 	
@@ -311,6 +311,65 @@ func _draw_diagram():
 	
 	canvas.draw_string(font, Vector2(label_x, y_80 + font_size/4), 
 				percent_80_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, bar_text_color)
+	
+	var label_font = ThemeDB.fallback_font
+	var label_font_size = 14
+	
+	# Left axis label "Частота"
+	var freq_label = "Частота"
+	var freq_label_width = label_font.get_string_size(freq_label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size).x
+	var freq_label_height = label_font.get_height(label_font_size)
+	
+	# Right axis label "Кумулятивный %"
+	var cumulative_label = "Кумулятивный %"
+	var cumulative_label_width = label_font.get_string_size(cumulative_label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size).x
+	var cumulative_label_height = label_font.get_height(label_font_size)
+	
+	# Prepare drawing transforms for rotated text
+	canvas.draw_set_transform(
+		Vector2(start_x - freq_label_height - 10, start_y - height/2), 
+		-PI/2, 
+		Vector2(1, 1)
+	)
+	canvas.draw_string(
+		label_font, 
+		Vector2(0, 0), 
+		freq_label, 
+		HORIZONTAL_ALIGNMENT_CENTER, 
+		-1, 
+		label_font_size, 
+		bar_text_color
+	)
+	
+	# Reset transform
+	canvas.draw_set_transform(
+		Vector2(0, 0), 
+		0, 
+		Vector2(1, 1)
+	)
+	
+	# Right axis label
+	canvas.draw_set_transform(
+		Vector2(end_x + cumulative_label_height + 30, start_y - height/2), 
+		-PI/2, 
+		Vector2(1, 1)
+	)
+	canvas.draw_string(
+		label_font, 
+		Vector2(0, 0), 
+		cumulative_label, 
+		HORIZONTAL_ALIGNMENT_CENTER, 
+		-1, 
+		label_font_size, 
+		bar_text_color
+	)
+	
+	# Reset transform
+	canvas.draw_set_transform(
+		Vector2(0, 0), 
+		0, 
+		Vector2(1, 1)
+	)
 	
 	# Draw cumulative percentage line
 	if points.size() > 1:

@@ -261,6 +261,8 @@ func _calculate_histogram():
 
 func _update_statistics_label():
 	var text = "Статистика:\n"
+	text += "Кол-во столбцов по ф-ле Стёрджеса: " + str(1 + 3.322 * (log(statistics.sample_size) / log(10))) + "\n"
+	text += "Кол-во столбцов по правилу квадратного корня: " + str(round(sqrt(statistics.sample_size))) + "\n"
 	text += "Размер выборки: " + str(statistics.sample_size) + "\n"
 	text += "Среднее: " + str(snapped(statistics.mean, 0.001)) + "\n"
 	text += "Медиана: " + str(snapped(statistics.median, 0.001)) + "\n"

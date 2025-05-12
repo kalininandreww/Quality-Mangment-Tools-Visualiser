@@ -1,10 +1,4 @@
-res://Scenes/sc_esc_menu.tscn
+res://Scenes/Tabs/SC_main_screen.tscn
 res://Styles/esc_menu_panel.tres
 res://Styles/TO_ButtonHoverMM.tres
 res://Styles/TO_ButtonNormalMM.tres
-res://Scenes/Tabs/sc_histogram.tscn
-res://Scenes/Tabs/SC_main_screen.tscn
-res://Scenes/Tabs/SC_Paretto.tscn
-res://Scripts/s_paretto.gd
-res://Scenes/Tabs/SC_Ishikava.tscn
-res://Scenes/Tabs/sc_control_charts.tscn

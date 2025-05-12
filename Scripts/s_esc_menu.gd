@@ -90,7 +90,7 @@ func _on_apply_settings_pressed():
 	settings_panel.visible = false
 
 func _on_close_settings_pressed():
-	# Optionally save settings on close as well
+	# Save settings on close
 	var result = save_settings()
 	if result != OK:
 		print("Error saving settings on close: ", result)

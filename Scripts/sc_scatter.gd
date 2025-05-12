@@ -122,7 +122,7 @@ func _on_data_mode_toggled(button_pressed):
 	data_input_y.visible = not single_data_mode
 	
 	if single_data_mode:
-		data_input_x.placeholder_text = "Введите пары X,Y разделенные запятой (пример: 1.2,2.3, 3.4,4.5, 5.6,6.7)"
+		data_input_x.placeholder_text = "Введите пары X,Y разделенные запятой (пример: 1.2, 3.4, 5.6)"
 	else:
 		data_input_x.placeholder_text = "Введите X-значения разделенные запятой (пример: 1.2, 3.4, 5.6)"
 
